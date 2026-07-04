@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+---
+
+<BaseLayout
+  title="Travel Journal — The Unhurried Traveler"
+  description="Deep-dive travel logs and solo travel essays from across Europe: villages, architecture, rail journeys, and the craft of traveling alone after sixty."
+>
+  <section class="mx-auto max-w-6xl px-6 pt-36">
+    <SectionHeading
+      eyebrow="The Journal"
+      title="Field notes from the road"
+      intro="Every entry is a journey I made alone — written for travelers who'd rather see one place properly than five places from a coach window."
+    />
+
+    <!-- tag filter -->
+    <div class="reveal mt-10 flex flex-wrap gap-2" role="group" aria-label="Filter entries by tag">
+      <button
+        type="button"
+        data-filter="all"
+        class="filter-chip is-active rounded-full border border-brand-800/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-800 transition-all duration-200 dark:border-white/15 dark:text-paper/80"
+      >
+        All
+      </button>
+      {tags.map((tag) => (
+        <button
+          type="button"
+          data-filter={tag}
+          class="filter-chip rounded-full border border-brand-800/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-brand-800 transition-all duration-200 dark:border-white/15 dark:text-paper/80"
+        >
+          {tag}
+        </button>
+      ))}
+    </div>
+
+    <div class="mt-12 grid gap-7 md:grid-cols-2 lg:grid-cols-3" id="post-grid">
+      {posts.map((post, i) => (
+        <div data-tags={post.data.tags.join('|')} class="post-cell">
+          <PostCard post={post} delay={Math.min(i, 5) * 100} />
+        </div>
+      ))}
+    </div>
+
+    <p id="no-results" class="mt-16 hidden text-center text-sm text-ink-800/60 dark:text-paper/50">
+      No entries under that tag yet — the road is long and the notebook is open.
+    </p>
+  </section>
+
+  <style>
+    .filter-chip:hover {
+      border-color: var(--color-accent-500);
+      color: var(--color-accent-600);
+    }
+    .filter-chip.is-active {
+      background: var(--color-accent-500);
+      border-color: var(--color-accent-500);
+      color: var(--color-ink-950);
+    }
+  </style>
+
+  <script>
+    function armFilters() {
+      const chips = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+      const cells = document.querySelectorAll<HTMLElement>('.post-cell');
+      const empty = document.getElementById('no-results');
+      if (!chips.length || chips[0].dataset.armed) return;
+      chips[0].dataset.armed = 'true';
+
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          chips.forEach((c) => c.classList.toggle('is-active', c === chip));
+          const filter = chip.dataset.filter;
+          let visible = 0;
+          cells.forEach((cell) => {
+            const show = filter === 'all' || (cell.dataset.tags ?? '').split('|').includes(filter!);
+            cell.style.display = show ? '' : 'none';
+            if (show) visible++;
+          });
+          empty?.classList.toggle('hidden', visible > 0);
+        });
+      });
+    }
+    armFilters();
+    document.addEventListener('astro:page-load', armFilters);
+  </script>
+</BaseLayout>

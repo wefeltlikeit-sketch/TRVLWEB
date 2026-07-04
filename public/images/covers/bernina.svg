@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d5c5a"/>
+      <stop offset="0.55" stop-color="#5db6ae"/>
+      <stop offset="1" stop-color="#d7ece7"/>
+    </linearGradient>
+    <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#b6d9d2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bsky)"/>
+  <circle cx="960" cy="170" r="60" fill="#f0fdf4" opacity="0.9"/>
+  <!-- peaks -->
+  <g>
+    <path d="M0 520 L230 200 L420 480 L560 260 L760 520 Z" fill="#3f7f79"/>
+    <path d="M230 200 L320 340 L260 340 L300 430 L180 300 Z" fill="url(#snow)"/>
+    <path d="M560 260 L640 380 L580 372 L620 450 L490 360 Z" fill="url(#snow)"/>
+    <path d="M600 540 L880 170 L1200 560 Z" fill="#2c6a63"/>
+    <path d="M880 170 L980 320 L905 305 L960 420 L790 300 Z" fill="url(#snow)"/>
+  </g>
+  <!-- valley -->
+  <path d="M0 800 L0 520 Q300 470 620 520 T1200 540 L1200 800 Z" fill="#124f4b"/>
+  <path d="M0 800 L0 620 Q350 560 700 615 T1200 640 L1200 800 Z" fill="#0d3d3a"/>
+  <!-- viaduct -->
+  <g fill="#dbe6e2">
+    <rect x="240" y="560" width="620" height="26"/>
+    <g fill="#0d3d3a">
+      <path d="M280 586 h70 v90 h-70 Z" transform="translate(0,0)"/>
+    </g>
+    <path d="M260 586 v110 h24 v-110 Z M340 586 v110 h24 v-110 Z M420 586 v110 h24 v-110 Z M500 586 v110 h24 v-110 Z M580 586 v110 h24 v-110 Z M660 586 v110 h24 v-110 Z M740 586 v110 h24 v-110 Z M820 586 v110 h24 v-110 Z"/>
+  </g>
+  <!-- red train -->
+  <g>
+    <rect x="300" y="516" width="180" height="44" rx="9" fill="#c2413b"/>
+    <rect x="492" y="516" width="180" height="44" rx="9" fill="#c2413b"/>
+    <rect x="684" y="516" width="150" height="44" rx="9" fill="#c2413b"/>
+    <g fill="#f6e7c8">
+      <rect x="316" y="528" width="24" height="16" rx="3"/><rect x="352" y="528" width="24" height="16" rx="3"/><rect x="388" y="528" width="24" height="16" rx="3"/><rect x="424" y="528" width="24" height="16" rx="3"/>
+      <rect x="508" y="528" width="24" height="16" rx="3"/><rect x="544" y="528" width="24" height="16" rx="3"/><rect x="580" y="528" width="24" height="16" rx="3"/><rect x="616" y="528" width="24" height="16" rx="3"/>
+      <rect x="700" y="528" width="24" height="16" rx="3"/><rect x="736" y="528" width="24" height="16" rx="3"/><rect x="772" y="528" width="24" height="16" rx="3"/>
+    </g>
+  </g>
+  <!-- pines -->
+  <g fill="#0a2e2b">
+    <path d="M120 800 l30 -70 30 70 Z M150 760 l24 -56 24 56 Z"/>
+    <path d="M960 800 l34 -80 34 80 Z M994 754 l26 -60 26 60 Z"/>
+    <path d="M1080 800 l28 -64 28 64 Z"/>
+  </g>
+</svg>

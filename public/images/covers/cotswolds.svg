@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dff0ea"/>
+      <stop offset="1" stop-color="#f6ecd6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#wsky)"/>
+  <circle cx="980" cy="170" r="64" fill="#fff8e1"/>
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="240" cy="150" rx="90" ry="26"/>
+    <ellipse cx="310" cy="130" rx="60" ry="20"/>
+    <ellipse cx="640" cy="110" rx="80" ry="22"/>
+  </g>
+  <!-- rolling hills -->
+  <path d="M0 430 Q300 330 620 420 T1200 400 L1200 800 L0 800 Z" fill="#7fae72"/>
+  <path d="M0 560 Q350 460 720 545 T1200 530 L1200 800 L0 800 Z" fill="#5f9457"/>
+  <path d="M0 700 Q400 610 820 680 T1200 670 L1200 800 L0 800 Z" fill="#477a41"/>
+  <!-- drystone wall -->
+  <path d="M0 640 Q400 560 800 620 T1200 610" stroke="#b3a284" stroke-width="10" fill="none" stroke-dasharray="18 10"/>
+  <!-- stone cottages -->
+  <g transform="translate(430,430)">
+    <rect x="0" y="40" width="150" height="90" fill="#dcc9a3"/>
+    <path d="M-10 40 L75 -18 L160 40 Z" fill="#8a7354"/>
+    <rect x="24" y="70" width="26" height="30" fill="#3f4a3c"/>
+    <rect x="100" y="70" width="26" height="30" fill="#3f4a3c"/>
+    <rect x="62" y="86" width="28" height="44" fill="#544230"/>
+    <rect x="112" y="-6" width="16" height="34" fill="#8a7354"/>
+    <rect x="160" y="58" width="120" height="72" fill="#d3bd93"/>
+    <path d="M152 58 L220 12 L288 58 Z" fill="#7d6749"/>
+    <rect x="182" y="82" width="24" height="26" fill="#3f4a3c"/>
+    <rect x="236" y="82" width="24" height="26" fill="#3f4a3c"/>
+  </g>
+  <!-- church tower in distance -->
+  <g transform="translate(880,380)" fill="#c9b489">
+    <rect x="0" y="0" width="44" height="96"/>
+    <path d="M-4 0 h52 l-6 -14 h-40 Z" fill="#9b855f"/>
+    <rect x="14" y="20" width="16" height="24" fill="#3f4a3c"/>
+  </g>
+  <!-- sheep -->
+  <g>
+    <g transform="translate(220,690)"><ellipse cx="0" cy="0" rx="26" ry="16" fill="#f5f1e6"/><circle cx="24" cy="-8" r="9" fill="#42423c"/><path d="M-14 14 v14 M10 14 v14" stroke="#42423c" stroke-width="4"/></g>
+    <g transform="translate(320,720)"><ellipse cx="0" cy="0" rx="24" ry="15" fill="#f5f1e6"/><circle cx="22" cy="-7" r="8" fill="#42423c"/><path d="M-12 13 v13 M9 13 v13" stroke="#42423c" stroke-width="4"/></g>
+    <g transform="translate(700,730)"><ellipse cx="0" cy="0" rx="26" ry="16" fill="#f5f1e6"/><circle cx="-24" cy="-8" r="9" fill="#42423c"/><path d="M-12 14 v14 M12 14 v14" stroke="#42423c" stroke-width="4"/></g>
+  </g>
+  <!-- winding footpath -->
+  <path d="M80 800 Q200 720 380 730 T700 690" stroke="#e0d3b2" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.9"/>
+</svg>

@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GearCard from '../components/GearCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const gear = (await getCollection('gear')).sort((a, b) => {
+  if (a.data.sponsor !== b.data.sponsor) return Number(b.data.sponsor) - Number(a.data.sponsor);
+  return a.data.name.localeCompare(b.data.name);
+});
+---
+
+<BaseLayout
+  title="Gear I Carry — The Unhurried Traveler"
+  description="The complete solo travel kit: one carry-on bag, a pocket camera department, and the pieces that survive the cut trip after trip."
+>
+  <section class="mx-auto max-w-6xl px-6 pt-36">
+    <SectionHeading
+      eyebrow="The Kit"
+      title="Everything I carry, and nothing else"
+      intro="The whole system fits one 40-litre bag I can lift overhead without help — that single constraint decides everything below. Items marked 'Partner' support the site; the opinions remain stubbornly my own."
+    />
+    <div class="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+      {gear.map((item, i) => <GearCard item={item} delay={(i % 3) * 110} />)}
+    </div>
+
+    <div class="reveal mt-16 rounded-3xl border border-brand-800/10 bg-paper-warm p-8 text-sm leading-relaxed text-ink-800/75 sm:p-10 dark:border-white/10 dark:bg-ink-800 dark:text-paper/65">
+      <h2 class="font-display text-xl font-semibold text-brand-900 dark:text-paper">The one-bag doctrine</h2>
+      <p class="mt-3">
+        Checked luggage is a leash: it ties you to carousels, to porters, to hotels with lifts, to taxis with boots.
+        One bag under ten kilograms means every train connection is easy, every cobbled lane is passable, and every
+        change of plan costs nothing. If a piece of gear can't justify its grams, it stays home — and each year,
+        the bag gets a little lighter while the journeys get a little longer.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

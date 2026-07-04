@@ -1,0 +1,24 @@
+---
+interface Props {
+  id: string;
+  title?: string;
+}
+
+const { id, title = 'Watch the film from this journey' } = Astro.props;
+---
+
+<figure class="not-prose my-10 overflow-hidden rounded-3xl border border-brand-800/10 shadow-xl dark:border-white/10">
+  <div class="aspect-video">
+    <iframe
+      src={`https://www.youtube-nocookie.com/embed/${id}`}
+      title={title}
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      class="h-full w-full"
+    ></iframe>
+  </div>
+  <figcaption class="bg-brand-950 px-6 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-accent-300">
+    ▶ {title}
+  </figcaption>
+</figure>

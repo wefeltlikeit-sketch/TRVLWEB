@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { withBase } from '../lib/paths';
+---
+
+<BaseLayout
+  title="About — The Unhurried Traveler"
+  description="Who writes this, why the journeys are solo, and why the best travel of a lifetime can start after sixty."
+>
+  <section class="mx-auto max-w-3xl px-6 pt-36">
+    <SectionHeading eyebrow="About" title="Alone by choice, unhurried by conviction" />
+
+    <div class="prose-journal mt-10">
+      <p>
+        I took my first solo trip at an age when most travel writing assumes you've hung up your boots.
+        My wife of many years had gone; the children were grown and scattered; and the choice, it turned out,
+        was between a smaller life and a larger one. I bought a one-way ticket to Lisbon, packed one bag,
+        and discovered something nobody had told me: <strong>Europe is the easiest place in the world to be
+        alone, and being alone is the most underrated way to see it.</strong>
+      </p>
+      <p>
+        This site is the notebook from everything since — the cliff villages of the Dordogne, the little red
+        trains of the Alps, milk-bar lunches in Kraków, October swims below the Cinque Terre. I travel slowly,
+        stay in one place at a time, ride trains where I can, and film what I see with a pocket camera and a
+        drone that weighs less than a paperback.
+      </p>
+      <h2>What you'll find here</h2>
+      <ul>
+        <li><strong>The Journal</strong> — long-form field notes: routes, architecture, history, and the practical craft of solo travel at a certain age.</li>
+        <li><strong>The Chart</strong> — an interactive map of every journey, with honest notes on season and walking pace.</li>
+        <li><strong>The Kit</strong> — the one-bag setup, from trekking poles to the flying camera.</li>
+      </ul>
+      <h2>The honesty clause</h2>
+      <p>
+        A few entries mention partners who help keep the site running; they're always labelled, they never
+        see an entry before publication, and nothing appears here that I don't carry, use, or stand behind.
+        If a famous village is overrated, I'll say so — and tell you what time of year makes it worth it anyway.
+      </p>
+      <blockquote>
+        Alone never meant lonely. It means every cathedral gets the time it deserves, every wrong turn is
+        allowed, and lunch lasts exactly as long as it wants to.
+      </blockquote>
+      <p>
+        If you're standing where I stood — retired, on your own, wondering whether the big trip is still
+        possible — consider this site one long letter saying: <em>yes, and go in the shoulder season.</em>
+      </p>
+    </div>
+
+    <div class="reveal mt-12 flex flex-wrap gap-4">
+      <a
+        href={withBase('/blog/')}
+        class="inline-flex items-center gap-2 rounded-xl bg-accent-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-accent-600/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500"
+      >
+        Start with the journal
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+      </a>
+      <a
+        href="mailto:wefeltlikeit@gmail.com"
+        class="inline-flex items-center gap-2 rounded-xl border border-brand-800/20 px-6 py-3.5 text-sm font-semibold text-brand-800 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-500 hover:text-accent-600 dark:border-white/15 dark:text-paper/85 dark:hover:text-accent-400"
+      >
+        Write to me
+      </a>
+    </div>
+  </section>
+</BaseLayout>

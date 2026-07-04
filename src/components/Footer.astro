@@ -1,0 +1,40 @@
+---
+import { withBase } from '../lib/paths';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-brand-800/10 bg-paper-warm dark:border-white/8 dark:bg-ink-900">
+  <div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="sm:col-span-2">
+      <p class="font-display text-xl font-semibold text-brand-900 dark:text-paper">The Unhurried Traveler</p>
+      <p class="mt-3 max-w-sm text-sm leading-relaxed text-ink-800/75 dark:text-paper/60">
+        Field notes from a solo traveler exploring Europe's villages, cathedrals, and coastlines —
+        proof that the best journeys begin after sixty, and that alone never means lonely.
+      </p>
+    </div>
+
+    <nav aria-label="Footer">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700 dark:text-accent-400">Explore</p>
+      <ul class="mt-4 space-y-2.5 text-sm">
+        <li><a class="text-ink-800/80 transition-colors hover:text-accent-600 dark:text-paper/70 dark:hover:text-accent-400" href={withBase('/blog/')}>Travel Journal</a></li>
+        <li><a class="text-ink-800/80 transition-colors hover:text-accent-600 dark:text-paper/70 dark:hover:text-accent-400" href={withBase('/destinations/')}>Destination Map</a></li>
+        <li><a class="text-ink-800/80 transition-colors hover:text-accent-600 dark:text-paper/70 dark:hover:text-accent-400" href={withBase('/gear/')}>Gear I Carry</a></li>
+        <li><a class="text-ink-800/80 transition-colors hover:text-accent-600 dark:text-paper/70 dark:hover:text-accent-400" href={withBase('/about/')}>About</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700 dark:text-accent-400">Follow Along</p>
+      <ul class="mt-4 space-y-2.5 text-sm">
+        <li><a class="text-ink-800/80 transition-colors hover:text-accent-600 dark:text-paper/70 dark:hover:text-accent-400" href="https://www.youtube.com/" rel="noopener">YouTube</a></li>
+        <li><a class="text-ink-800/80 transition-colors hover:text-accent-600 dark:text-paper/70 dark:hover:text-accent-400" href="https://www.instagram.com/" rel="noopener">Instagram</a></li>
+        <li><a class="text-ink-800/80 transition-colors hover:text-accent-600 dark:text-paper/70 dark:hover:text-accent-400" href="mailto:wefeltlikeit@gmail.com">Email me</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-brand-800/10 py-6 text-center text-xs text-ink-800/55 dark:border-white/8 dark:text-paper/45">
+    © {year} The Unhurried Traveler · Wander widely, hurry never.
+  </div>
+</footer>

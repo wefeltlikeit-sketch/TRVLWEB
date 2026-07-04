@@ -1,0 +1,9 @@
+{
+  "name": "Booking.com Genius",
+  "category": "Stays",
+  "tagline": "Single rooms without the single supplement sting",
+  "description": "Filter for 'free cancellation' and ground-floor or lift access, read the solo-traveler reviews, and book places that treat a party of one as a guest rather than a rounding error.",
+  "link": "https://www.booking.com",
+  "sponsor": true,
+  "icon": "stay"
+}

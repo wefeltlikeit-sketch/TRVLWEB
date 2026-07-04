@@ -1,0 +1,193 @@
+---
+import { getCollection } from 'astro:content';
+import mapData from '../lib/europe-map.json';
+import { MAP, project } from '../lib/geo';
+import { withBase } from '../lib/paths';
+
+const destinations = (await getCollection('destinations')).sort((a, b) =>
+  a.data.name.localeCompare(b.data.name)
+);
+
+const paceLabel = { gentle: 'Gentle pace', moderate: 'Moderate pace', active: 'Active pace' } as const;
+
+const pins = destinations.map((d) => {
+  const { x, y } = project(d.data.coordinates);
+  return {
+    id: d.id,
+    name: d.data.name,
+    country: d.data.country,
+    summary: d.data.summary,
+    bestSeason: d.data.bestSeason,
+    pace: paceLabel[d.data.pace],
+    highlights: d.data.highlights,
+    postUrl: d.data.relatedPost ? withBase(`/blog/${d.data.relatedPost}/`) : null,
+    left: +((x / MAP.width) * 100).toFixed(2),
+    top: +((y / MAP.height) * 100).toFixed(2),
+  };
+});
+
+const graticuleLons = [-10, -5, 0, 5, 10, 15, 20, 25, 30];
+const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
+---
+
+<div class="reveal grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+  <!-- Chart panel -->
+  <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-950 via-ink-900 to-brand-900 p-4 shadow-2xl shadow-brand-950/40 sm:p-6">
+    <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-accent-500/10 blur-3xl" aria-hidden="true"></div>
+
+    <div class="relative">
+      <svg viewBox={mapData.viewBox} class="w-full" role="img" aria-label="Stylized map of Europe with journey destinations marked">
+        <defs>
+          <linearGradient id="land" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#117a76" />
+            <stop offset="100%" stop-color="#0d5c5a" />
+          </linearGradient>
+        </defs>
+
+        <!-- graticule -->
+        <g stroke="#1cb8b0" stroke-opacity="0.13" stroke-width="1">
+          {graticuleLons.map((lon) => {
+            const { x } = project([lon, 50]);
+            return <line x1={x} y1="0" x2={x} y2={MAP.height} />;
+          })}
+          {graticuleLats.map((lat) => {
+            const { y } = project([0, lat]);
+            return <line x1="0" y1={y} x2={MAP.width} y2={y} />;
+          })}
+        </g>
+
+        <!-- landmasses -->
+        <g fill="url(#land)" stroke="#34d399" stroke-opacity="0.35" stroke-width="1.5" stroke-linejoin="round">
+          {Object.values(mapData.paths).map((d) => (
+            <path d={d} />
+          ))}
+        </g>
+      </svg>
+
+      <!-- pins (HTML overlay so they are real buttons) -->
+      {pins.map((pin, i) => (
+        <button
+          type="button"
+          class="map-pin group absolute -translate-x-1/2 -translate-y-1/2"
+          style={`left:${pin.left}%; top:${pin.top}%;`}
+          data-pin={pin.id}
+          data-index={i}
+          aria-label={`Show details for ${pin.name}, ${pin.country}`}
+        >
+          <span class="pin-ring absolute inset-0 rounded-full bg-accent-400/70 animate-pulse-ring" aria-hidden="true"></span>
+          <span class="pin-dot relative block size-3.5 rounded-full border-2 border-ink-950 bg-accent-400 shadow-[0_0_14px_rgba(52,211,153,0.9)] transition-transform duration-300 group-hover:scale-150 sm:size-4"></span>
+          <span class="pointer-events-none absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink-950/85 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-accent-300 opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:text-[0.65rem]">
+            {pin.name}
+          </span>
+        </button>
+      ))}
+    </div>
+
+    <p class="relative mt-3 text-center text-[0.65rem] font-medium uppercase tracking-[0.25em] text-white/35">
+      Select a marker to open its field notes
+    </p>
+  </div>
+
+  <!-- Detail card -->
+  <aside id="map-detail" class="glass flex flex-col rounded-3xl p-7 shadow-xl sm:p-8" aria-live="polite">
+    <p class="text-xs font-bold uppercase tracking-[0.28em] text-accent-600 dark:text-accent-400" data-slot="country">—</p>
+    <h3 class="mt-2 font-display text-2xl font-semibold tracking-tight text-brand-900 sm:text-3xl dark:text-paper" data-slot="name">Choose a destination</h3>
+    <p class="mt-4 flex-none text-sm leading-relaxed text-ink-800/80 dark:text-paper/70" data-slot="summary">
+      Every pin on the chart is a journey I have made alone — tap one to see when to go, how demanding it is, and what not to miss.
+    </p>
+
+    <dl class="mt-6 grid grid-cols-2 gap-3 text-sm" data-slot="meta" hidden>
+      <div class="rounded-2xl bg-brand-800/8 p-4 dark:bg-white/6">
+        <dt class="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-brand-700 dark:text-accent-400">Best season</dt>
+        <dd class="mt-1.5 font-medium text-brand-900 dark:text-paper" data-slot="season"></dd>
+      </div>
+      <div class="rounded-2xl bg-brand-800/8 p-4 dark:bg-white/6">
+        <dt class="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-brand-700 dark:text-accent-400">Walking</dt>
+        <dd class="mt-1.5 font-medium text-brand-900 dark:text-paper" data-slot="pace"></dd>
+      </div>
+    </dl>
+
+    <ul class="mt-5 space-y-2 text-sm text-ink-800/80 dark:text-paper/70" data-slot="highlights"></ul>
+
+    <a
+      href="#"
+      data-slot="post-link"
+      hidden
+      class="mt-auto inline-flex items-center justify-center gap-2 rounded-xl bg-accent-600 px-5 py-3 pt-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500 mt-7"
+    >
+      Read the journal entry
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14m-6-6 6 6-6 6" />
+      </svg>
+    </a>
+  </aside>
+</div>
+
+<script is:inline define:vars={{ pins }}>
+  (function () {
+    function armMap() {
+      const detail = document.getElementById('map-detail');
+      if (!detail || detail.dataset.armed) return;
+      detail.dataset.armed = 'true';
+
+      const slot = (name) => detail.querySelector(`[data-slot="${name}"]`);
+
+      function select(pin, focusButton) {
+        document.querySelectorAll('.map-pin').forEach((b) => {
+          const active = b.dataset.pin === pin.id;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-pressed', String(active));
+        });
+
+        slot('country').textContent = pin.country;
+        slot('name').textContent = pin.name;
+        slot('summary').textContent = pin.summary;
+        slot('season').textContent = pin.bestSeason;
+        slot('pace').textContent = pin.pace;
+        slot('meta').hidden = false;
+
+        const list = slot('highlights');
+        list.innerHTML = '';
+        pin.highlights.forEach((h) => {
+          const li = document.createElement('li');
+          li.className = 'flex items-start gap-2.5';
+          const dot = document.createElement('span');
+          dot.className = 'mt-1.5 size-1.5 flex-none rounded-full bg-accent-500';
+          const text = document.createElement('span');
+          text.textContent = h;
+          li.append(dot, text);
+          list.appendChild(li);
+        });
+
+        const link = slot('post-link');
+        if (pin.postUrl) {
+          link.href = pin.postUrl;
+          link.hidden = false;
+        } else {
+          link.hidden = true;
+        }
+      }
+
+      document.querySelectorAll('.map-pin').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const pin = pins.find((p) => p.id === btn.dataset.pin);
+          if (pin) select(pin);
+        });
+      });
+
+      if (pins.length) select(pins[0]);
+    }
+    armMap();
+    document.addEventListener('astro:page-load', armMap);
+  })();
+</script>
+
+<style>
+  .map-pin.is-active .pin-dot {
+    transform: scale(1.6);
+    background: #6ee7b7;
+  }
+  .map-pin.is-active .pin-ring {
+    background: rgba(110, 231, 183, 0.8);
+  }
+</style>
