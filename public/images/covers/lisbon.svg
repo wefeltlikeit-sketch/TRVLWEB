@@ -7,7 +7,7 @@
     </linearGradient>
     <linearGradient id="ltagus" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#e8a37f"/>
-      <stop offset="1" stop-color="#117a76"/>
+      <stop offset="1" stop-color="#8b4c36"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="800" fill="url(#lsky)"/>
@@ -19,13 +19,13 @@
   <g>
     <g fill="#c96f52"><path d="M0 300 l150 -70 150 70 v90 h-300 Z"/></g>
     <rect x="34" y="330" width="232" height="90" fill="#f3e3cf"/>
-    <g fill="#274b53"><rect x="60" y="352" width="34" height="46"/><rect x="130" y="352" width="34" height="46"/><rect x="200" y="352" width="34" height="46"/></g>
+    <g fill="#4f5f6a"><rect x="60" y="352" width="34" height="46"/><rect x="130" y="352" width="34" height="46"/><rect x="200" y="352" width="34" height="46"/></g>
     <g fill="#cf7a58"><path d="M210 420 l140 -62 140 62 v96 h-280 Z"/></g>
     <rect x="238" y="450" width="224" height="86" fill="#efd9b8"/>
-    <g fill="#274b53"><rect x="262" y="470" width="32" height="44"/><rect x="330" y="470" width="32" height="44"/><rect x="398" y="470" width="32" height="44"/></g>
+    <g fill="#4f5f6a"><rect x="262" y="470" width="32" height="44"/><rect x="330" y="470" width="32" height="44"/><rect x="398" y="470" width="32" height="44"/></g>
     <g fill="#c2604a"><path d="M420 520 l130 -58 130 58 v110 h-260 Z"/></g>
     <rect x="446" y="548" width="208" height="102" fill="#f3e8d8"/>
-    <g fill="#274b53"><rect x="470" y="570" width="30" height="42"/><rect x="534" y="570" width="30" height="42"/><rect x="598" y="570" width="30" height="42"/></g>
+    <g fill="#4f5f6a"><rect x="470" y="570" width="30" height="42"/><rect x="534" y="570" width="30" height="42"/><rect x="598" y="570" width="30" height="42"/></g>
     <!-- church with two towers -->
     <g fill="#f7efe2">
       <rect x="700" y="360" width="180" height="180"/>
@@ -37,20 +37,20 @@
       <path d="M848 330 l22 -34 22 34 Z"/>
       <path d="M700 360 l90 -44 90 44 Z"/>
     </g>
-    <circle cx="790" cy="420" r="26" fill="#274b53"/>
-    <rect x="770" y="470" width="40" height="70" fill="#274b53"/>
+    <circle cx="790" cy="420" r="26" fill="#4f5f6a"/>
+    <rect x="770" y="470" width="40" height="70" fill="#4f5f6a"/>
   </g>
   <!-- tram -->
   <g>
-    <path d="M60 610 L560 690" stroke="#3a2a20" stroke-width="6"/>
+    <path d="M60 610 L560 690" stroke="#5a3a2c" stroke-width="6"/>
     <g transform="translate(240,566) rotate(9)">
       <rect x="0" y="0" width="170" height="80" rx="10" fill="#f2c53d"/>
-      <rect x="0" y="52" width="170" height="16" fill="#2f6f6a"/>
-      <g fill="#274b53">
+      <rect x="0" y="52" width="170" height="16" fill="#68705a"/>
+      <g fill="#4f5f6a">
         <rect x="14" y="14" width="28" height="26" rx="3"/><rect x="52" y="14" width="28" height="26" rx="3"/><rect x="90" y="14" width="28" height="26" rx="3"/><rect x="128" y="14" width="28" height="26" rx="3"/>
       </g>
-      <path d="M85 0 L60 -34 M85 0 L110 -34" stroke="#3a2a20" stroke-width="4"/>
-      <circle cx="34" cy="84" r="10" fill="#1d1410"/><circle cx="136" cy="84" r="10" fill="#1d1410"/>
+      <path d="M85 0 L60 -34 M85 0 L110 -34" stroke="#5a3a2c" stroke-width="4"/>
+      <circle cx="34" cy="84" r="10" fill="#3a2a20"/><circle cx="136" cy="84" r="10" fill="#3a2a20"/>
     </g>
   </g>
   <!-- seagulls -->

@@ -1,52 +1,56 @@
 @import '@fontsource-variable/fraunces';
-@import '@fontsource-variable/inter';
+@import '@fontsource-variable/source-sans-3';
+@import '@fontsource/caveat/400.css';
+@import '@fontsource/caveat/600.css';
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Source Sans 3 Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-hand: 'Caveat', ui-serif, cursive;
 
-  /* Deep teal brand anchors */
-  --color-brand-950: #052e2d;
-  --color-brand-900: #073f3d;
-  --color-brand-800: #0d5c5a;
-  --color-brand-700: #117a76;
-  --color-brand-600: #159a94;
-  --color-brand-500: #1cb8b0;
-  --color-brand-100: #ccf3ef;
-  --color-brand-50: #ecfbf9;
+  /* Cream & parchment surfaces */
+  --color-cream: #f4efe6;
+  --color-cream-hi: #fbf8f2;
+  --color-parchment: #e8ddcb;
+  --color-limestone: #cfc2ae;
+  --color-limestone-dark: #b3a58d;
 
-  /* Vibrant green interactive states */
-  --color-accent-600: #059669;
-  --color-accent-500: #10b981;
-  --color-accent-400: #34d399;
-  --color-accent-300: #6ee7b7;
+  /* Ink — deep warm charcoal, never pure black */
+  --color-ink: #302e2a;
+  --color-ink-soft: #57534a;
+  --color-ink-faint: #837c6c;
 
-  /* Adaptive surfaces */
-  --color-ink-950: #0a1414;
-  --color-ink-900: #0e1b1b;
-  --color-ink-800: #142424;
-  --color-ink-700: #1d3333;
-  --color-paper: #f7f7f3;
-  --color-paper-warm: #efefe8;
+  /* Accents — terracotta leads, olive and slate support, burgundy is rare */
+  --color-terracotta: #a65f43;
+  --color-terracotta-dark: #8b4c36;
+  --color-terracotta-light: #c9855f;
+  --color-olive: #68705a;
+  --color-olive-dark: #545a47;
+  --color-olive-light: #93987f;
+  --color-slate: #667985;
+  --color-slate-dark: #4f5f6a;
+  --color-burgundy: #754a46;
+  --color-burgundy-dark: #5d3c39;
+
+  /* Dusk — warm dark-mode surfaces, lit like a stone room after sunset */
+  --color-dusk-950: #1c1a16;
+  --color-dusk-900: #24211c;
+  --color-dusk-800: #302c25;
+  --color-dusk-700: #3d382f;
 
   --animate-float: float 7s ease-in-out infinite;
   --animate-pulse-ring: pulse-ring 2.6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
-  --animate-drift: drift 26s linear infinite;
 
   @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
+    50% { transform: translateY(-10px); }
   }
   @keyframes pulse-ring {
-    0% { transform: scale(1); opacity: 0.7; }
-    80%, 100% { transform: scale(3.2); opacity: 0; }
-  }
-  @keyframes drift {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    0% { transform: scale(1); opacity: 0.6; }
+    80%, 100% { transform: scale(2.8); opacity: 0; }
   }
 }
 
@@ -57,45 +61,56 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background: var(--color-paper);
-  color: var(--color-ink-900);
+  background: var(--color-cream);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   transition: background-color 300ms ease, color 300ms ease;
 }
 
 .dark body {
-  background: var(--color-ink-950);
-  color: #e7efee;
+  background: var(--color-dusk-950);
+  color: #ece5d8;
 }
 
 ::selection {
-  background: var(--color-accent-500);
-  color: var(--color-ink-950);
+  background: var(--color-terracotta-light);
+  color: var(--color-ink);
 }
 
-/* ---------- Glassmorphic surfaces ---------- */
+/* ---------- Handwritten-style captions ---------- */
+.caption-hand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  color: var(--color-terracotta-dark);
+  transform: rotate(-1deg);
+}
+.dark .caption-hand { color: var(--color-terracotta-light); }
+
+/* ---------- Warm glass surfaces ---------- */
 .glass {
-  background: rgba(255, 255, 255, 0.62);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
-  border: 1px solid rgba(13, 92, 90, 0.14);
+  background: rgba(251, 248, 242, 0.72);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(48, 46, 42, 0.08);
 }
 .dark .glass {
-  background: rgba(14, 27, 27, 0.55);
-  border-color: rgba(255, 255, 255, 0.09);
+  background: rgba(36, 33, 28, 0.68);
+  border-color: rgba(232, 221, 203, 0.1);
 }
 
 .glass-deep {
-  background: rgba(7, 63, 61, 0.5);
-  backdrop-filter: blur(20px) saturate(1.3);
-  -webkit-backdrop-filter: blur(20px) saturate(1.3);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(48, 46, 42, 0.42);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 /* ---------- Scroll-reveal micro-interactions ---------- */
 .reveal {
   opacity: 0;
-  transform: translateY(26px);
+  transform: translateY(22px);
   transition: opacity 700ms cubic-bezier(0.2, 0.6, 0.2, 1), transform 700ms cubic-bezier(0.2, 0.6, 0.2, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
@@ -116,9 +131,9 @@ body {
 .prose-journal {
   font-size: 1.075rem;
   line-height: 1.85;
-  color: var(--color-ink-800);
+  color: var(--color-ink-soft);
 }
-.dark .prose-journal { color: #cfdedd; }
+.dark .prose-journal { color: #d8cfbe; }
 
 .prose-journal > * + * { margin-top: 1.35em; }
 
@@ -129,46 +144,46 @@ body {
   line-height: 1.25;
   letter-spacing: -0.01em;
   margin-top: 2.2em;
-  color: var(--color-brand-800);
+  color: var(--color-ink);
 }
-.dark .prose-journal h2 { color: var(--color-brand-100); }
+.dark .prose-journal h2 { color: var(--color-cream); }
 
 .prose-journal h3 {
   font-family: var(--font-display);
   font-weight: 540;
   font-size: 1.3rem;
   margin-top: 1.9em;
-  color: var(--color-brand-800);
+  color: var(--color-ink);
 }
-.dark .prose-journal h3 { color: var(--color-brand-100); }
+.dark .prose-journal h3 { color: var(--color-cream); }
 
 .prose-journal a {
-  color: var(--color-accent-600);
+  color: var(--color-terracotta-dark);
   text-decoration: underline;
   text-decoration-thickness: 1.5px;
   text-underline-offset: 3px;
   transition: color 150ms ease;
 }
-.prose-journal a:hover { color: var(--color-brand-700); }
-.dark .prose-journal a { color: var(--color-accent-400); }
-.dark .prose-journal a:hover { color: var(--color-accent-300); }
+.prose-journal a:hover { color: var(--color-terracotta); }
+.dark .prose-journal a { color: var(--color-terracotta-light); }
+.dark .prose-journal a:hover { color: #dba07c; }
 
 .prose-journal blockquote {
-  border-left: 3px solid var(--color-accent-500);
+  border-left: 3px solid var(--color-terracotta);
   padding: 0.4em 0 0.4em 1.4em;
   font-family: var(--font-display);
   font-style: italic;
   font-size: 1.25rem;
   line-height: 1.6;
-  color: var(--color-brand-800);
+  color: var(--color-ink);
 }
-.dark .prose-journal blockquote { color: var(--color-brand-100); }
+.dark .prose-journal blockquote { color: var(--color-cream); }
 
 .prose-journal ul, .prose-journal ol { padding-left: 1.4em; }
 .prose-journal ul { list-style: disc; }
 .prose-journal ol { list-style: decimal; }
 .prose-journal li { margin-top: 0.5em; }
-.prose-journal li::marker { color: var(--color-accent-500); }
+.prose-journal li::marker { color: var(--color-terracotta); }
 
 .prose-journal strong { color: inherit; font-weight: 650; }
 
@@ -180,22 +195,22 @@ body {
 .prose-journal hr::after {
   content: '· · ·';
   letter-spacing: 0.9em;
-  color: var(--color-brand-600);
+  color: var(--color-olive);
   font-size: 1.1rem;
 }
 
 .prose-journal img {
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   width: 100%;
 }
 
 .prose-journal code {
   font-size: 0.9em;
-  background: rgba(13, 92, 90, 0.08);
+  background: rgba(166, 95, 67, 0.1);
   border-radius: 0.35rem;
   padding: 0.15em 0.4em;
 }
-.dark .prose-journal code { background: rgba(255, 255, 255, 0.09); }
+.dark .prose-journal code { background: rgba(232, 221, 203, 0.1); }
 
 /* ---------- View transition polish ---------- */
 @view-transition {

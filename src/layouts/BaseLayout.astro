@@ -13,7 +13,7 @@ interface Props {
 
 const {
   title,
-  description = 'Solo European travel for the seasoned explorer — villages, architecture, and unhurried journeys.',
+  description = 'Photographs, stories, villages, markets, and discoveries from the roads between Europe’s famous places.',
   ogImage = '/images/covers/hero.svg',
 } = Astro.props;
 
@@ -33,7 +33,7 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefin
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={withBase(ogImage)} />
-    <meta name="theme-color" content="#0d5c5a" />
+    <meta name="theme-color" content="#a65f43" />
     <ClientRouter />
 
     <!-- Theme is applied before paint and survives view transitions -->

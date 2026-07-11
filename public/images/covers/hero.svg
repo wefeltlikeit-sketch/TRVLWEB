@@ -1,32 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#052e2d"/>
-      <stop offset="0.45" stop-color="#0d5c5a"/>
-      <stop offset="0.78" stop-color="#159a94"/>
-      <stop offset="1" stop-color="#8be0c4"/>
+      <stop offset="0" stop-color="#fbeed9"/>
+      <stop offset="0.4" stop-color="#f2c98a"/>
+      <stop offset="0.75" stop-color="#e0925f"/>
+      <stop offset="1" stop-color="#c97142"/>
     </linearGradient>
     <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#d1fae5"/>
-      <stop offset="0.55" stop-color="#6ee7b7" stop-opacity="0.85"/>
-      <stop offset="1" stop-color="#6ee7b7" stop-opacity="0"/>
+      <stop offset="0" stop-color="#fff8e8"/>
+      <stop offset="0.55" stop-color="#ffdba0" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffdba0" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0f6b64"/>
-      <stop offset="1" stop-color="#052e2d"/>
+      <stop offset="0" stop-color="#e0925f"/>
+      <stop offset="1" stop-color="#5c3b28"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="800" fill="url(#sky)"/>
   <circle cx="760" cy="470" r="230" fill="url(#sun)"/>
-  <circle cx="760" cy="470" r="62" fill="#d1fae5"/>
-  <g fill="#0b4a47" opacity="0.85">
+  <circle cx="760" cy="470" r="62" fill="#fff2da"/>
+  <g fill="#c9a67e" opacity="0.65">
     <path d="M0 430 L140 330 L250 400 L390 300 L520 405 L640 350 L760 430 L900 340 L1030 420 L1200 350 L1200 800 L0 800 Z"/>
   </g>
-  <g fill="#073f3d">
+  <g fill="#a97c52" opacity="0.88">
     <path d="M0 520 L180 440 L320 500 L470 430 L600 505 L780 445 L950 515 L1100 460 L1200 500 L1200 800 L0 800 Z"/>
   </g>
   <!-- hilltop village silhouette -->
-  <g fill="#041f1e">
+  <g fill="#4a3221">
     <path d="M0 600 L1200 560 L1200 800 L0 800 Z"/>
     <path d="M210 600 v-52 h26 v52 Z M223 528 l13 20 h-26 Z"/>
     <path d="M255 604 v-34 h40 v34 Z"/>
@@ -38,10 +38,10 @@
     <path d="M960 588 v-26 h30 v26 Z"/>
   </g>
   <path d="M0 650 Q300 622 600 648 T1200 640 L1200 800 L0 800 Z" fill="url(#water)"/>
-  <g stroke="#6ee7b7" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round">
+  <g stroke="#ffdba0" stroke-opacity="0.5" stroke-width="3" stroke-linecap="round">
     <path d="M620 690 h130 M560 720 h180 M660 750 h110"/>
   </g>
-  <g fill="#041f1e" opacity="0.9">
+  <g fill="#3a2418" opacity="0.9">
     <path d="M120 700 q40 -18 90 0 l-8 16 h-74 Z"/>
     <path d="M158 700 v-26 l30 18 v8 Z"/>
   </g>

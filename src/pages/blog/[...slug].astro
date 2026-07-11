@@ -39,26 +39,26 @@ const more = all.filter((p) => p.id !== post.id).slice(0, 3);
 
 <BaseLayout title={`${title} — The Unhurried Traveler`} description={description} ogImage={coverImage}>
   <!-- cover -->
-  <section class="relative flex min-h-[62svh] items-end overflow-hidden">
+  <section class="relative flex min-h-[58svh] items-end overflow-hidden">
     <img src={withBase(coverImage)} alt="" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
-    <div class="absolute inset-0 bg-gradient-to-t from-brand-950/85 via-brand-950/25 to-brand-950/30"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/15 to-transparent"></div>
 
     <div class="relative mx-auto w-full max-w-3xl px-6 pb-14 pt-44">
       <div class="flex flex-wrap gap-2">
         {tags.map((tag) => (
-          <span class="glass-deep rounded-full px-3.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-wider text-white">{tag}</span>
+          <span class="glass-deep rounded-full px-3.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-wider text-cream-hi">{tag}</span>
         ))}
       </div>
-      <h1 class="mt-5 font-display text-3xl font-semibold leading-[1.12] tracking-tight text-white sm:text-5xl">
+      <h1 class="mt-5 font-display text-3xl font-semibold leading-[1.14] tracking-tight text-cream-hi sm:text-5xl">
         {title}
       </h1>
-      <p class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium uppercase tracking-[0.18em] text-accent-300">
+      <p class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium uppercase tracking-[0.16em] text-terracotta-light">
         <span>{dateLabel}</span>
-        <span aria-hidden="true" class="size-1 rounded-full bg-accent-400"></span>
+        <span aria-hidden="true" class="size-1 rounded-full bg-terracotta-light"></span>
         <span>{readMinutes} min read</span>
         {coordinates && (
           <>
-            <span aria-hidden="true" class="size-1 rounded-full bg-accent-400"></span>
+            <span aria-hidden="true" class="size-1 rounded-full bg-terracotta-light"></span>
             <span>{Math.abs(coordinates[1]).toFixed(2)}°{coordinates[1] >= 0 ? 'N' : 'S'} {Math.abs(coordinates[0]).toFixed(2)}°{coordinates[0] >= 0 ? 'E' : 'W'}</span>
           </>
         )}
@@ -68,7 +68,7 @@ const more = all.filter((p) => p.id !== post.id).slice(0, 3);
 
   <!-- body -->
   <article class="mx-auto max-w-3xl px-6 pt-14">
-    <p class="font-display text-xl leading-relaxed text-brand-800 sm:text-[1.35rem] dark:text-brand-100">
+    <p class="font-display text-xl leading-relaxed text-ink sm:text-[1.35rem] dark:text-cream">
       {description}
     </p>
 
@@ -79,41 +79,41 @@ const more = all.filter((p) => p.id !== post.id).slice(0, 3);
     </div>
 
     {sponsorEntries.length > 0 && (
-      <aside class="mt-14 rounded-3xl border border-brand-800/10 bg-paper-warm p-7 dark:border-white/10 dark:bg-ink-800">
-        <p class="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-brand-700 dark:text-accent-400">
+      <aside class="mt-14 rounded-lg border border-limestone/50 bg-parchment p-7 dark:border-cream/10 dark:bg-dusk-800">
+        <p class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-terracotta-dark dark:text-terracotta-light">
           Made possible by
         </p>
         <ul class="mt-4 flex flex-wrap gap-x-8 gap-y-3">
           {sponsorEntries.map((s) => (
             <li>
               {s.data.link ? (
-                <a href={s.data.link} rel="noopener sponsored" target="_blank" class="text-sm font-semibold text-brand-900 underline decoration-accent-500 decoration-2 underline-offset-4 transition-colors hover:text-accent-600 dark:text-paper">
+                <a href={s.data.link} rel="noopener sponsored" target="_blank" class="text-sm font-semibold text-ink underline decoration-terracotta decoration-2 underline-offset-4 transition-colors hover:text-terracotta-dark dark:text-cream">
                   {s.data.name}
                 </a>
               ) : (
-                <span class="text-sm font-semibold text-brand-900 dark:text-paper">{s.data.name}</span>
+                <span class="text-sm font-semibold text-ink dark:text-cream">{s.data.name}</span>
               )}
             </li>
           ))}
         </ul>
-        <p class="mt-4 text-xs leading-relaxed text-ink-800/60 dark:text-paper/50">
+        <p class="mt-4 text-xs leading-relaxed text-ink-faint dark:text-cream/50">
           Partners never see an entry before it is published, and the opinions — like the journeys — are entirely my own.
         </p>
       </aside>
     )}
 
     <!-- next / prev -->
-    <nav class="mt-14 grid gap-4 border-t border-brand-800/10 pt-10 sm:grid-cols-2 dark:border-white/10" aria-label="More entries">
+    <nav class="mt-14 grid gap-4 border-t border-limestone/50 pt-10 sm:grid-cols-2 dark:border-cream/10" aria-label="More entries">
       {older ? (
-        <a href={withBase(`/blog/${older.id}/`)} class="group rounded-2xl border border-brand-800/10 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent-500/50 hover:shadow-lg dark:border-white/10">
-          <p class="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-ink-800/50 dark:text-paper/40">← Earlier journey</p>
-          <p class="mt-2 font-display font-semibold leading-snug text-brand-900 group-hover:text-accent-600 dark:text-paper dark:group-hover:text-accent-400">{older.data.title}</p>
+        <a href={withBase(`/blog/${older.id}/`)} class="group rounded-lg border border-limestone/50 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10">
+          <p class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-ink-faint dark:text-cream/40">← Earlier journey</p>
+          <p class="mt-2 font-display font-semibold leading-snug text-ink group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">{older.data.title}</p>
         </a>
       ) : <span></span>}
       {newer && (
-        <a href={withBase(`/blog/${newer.id}/`)} class="group rounded-2xl border border-brand-800/10 p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-accent-500/50 hover:shadow-lg dark:border-white/10">
-          <p class="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-ink-800/50 dark:text-paper/40">Later journey →</p>
-          <p class="mt-2 font-display font-semibold leading-snug text-brand-900 group-hover:text-accent-600 dark:text-paper dark:group-hover:text-accent-400">{newer.data.title}</p>
+        <a href={withBase(`/blog/${newer.id}/`)} class="group rounded-lg border border-limestone/50 p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10">
+          <p class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-ink-faint dark:text-cream/40">Later journey →</p>
+          <p class="mt-2 font-display font-semibold leading-snug text-ink group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">{newer.data.title}</p>
         </a>
       )}
     </nav>
@@ -121,7 +121,7 @@ const more = all.filter((p) => p.id !== post.id).slice(0, 3);
 
   <!-- more entries -->
   <section class="mx-auto max-w-6xl px-6 pt-24">
-    <h2 class="reveal font-display text-2xl font-semibold tracking-tight text-brand-900 dark:text-paper">Keep reading</h2>
+    <h2 class="reveal font-display text-2xl font-semibold tracking-tight text-ink dark:text-cream">Keep reading</h2>
     <div class="mt-8 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
       {more.map((p, i) => <PostCard post={p} delay={i * 110} />)}
     </div>
