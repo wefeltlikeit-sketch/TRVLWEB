@@ -4,6 +4,8 @@ import { withBase } from '../lib/paths';
 const nav = [
   { href: '/blog/', label: 'Journal' },
   { href: '/destinations/', label: 'Destinations' },
+  { href: '/markets/', label: 'Markets' },
+  { href: '/films/', label: 'Films' },
   { href: '/gear/', label: 'Gear' },
   { href: '/about/', label: 'About' },
 ];
@@ -27,7 +29,7 @@ const isActive = (href: string) => current.startsWith(withBase(href).replace(/\/
       </span>
     </a>
 
-    <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+    <nav class="hidden items-center gap-6 md:flex" aria-label="Primary">
       {nav.map((item) => (
         <a
           href={withBase(item.href)}
@@ -44,7 +46,7 @@ const isActive = (href: string) => current.startsWith(withBase(href).replace(/\/
     </nav>
 
     <div class="flex items-center gap-3">
-      <span class="script hidden text-xl lg:block">Slow down. Stay curious.</span>
+      <span class="script hidden text-xl xl:block">Slow down. Stay curious.</span>
       <button
         id="theme-toggle"
         type="button"

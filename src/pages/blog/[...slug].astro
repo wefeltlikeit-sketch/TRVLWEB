@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const { title, description, pubDate, coverImage, youtubeId, tags, sponsors, coordinates } = post.data;
+const { title, description, pubDate, coverImage, youtubeId, tags, sponsors, coordinates, relatedMarketFinds, relatedVideos } = post.data;
 
 const dateLabel = pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 const words = (post.body ?? '').split(/\s+/).filter(Boolean).length;
@@ -23,6 +23,13 @@ const readMinutes = Math.max(2, Math.round(words / 210));
 
 const sponsorEntries = (
   await Promise.all(sponsors.map((id) => getEntry('gear', id)))
+).filter((e) => e != null);
+
+const marketEntries = (
+  await Promise.all(relatedMarketFinds.map((id) => getEntry('marketFinds', id)))
+).filter((e) => e != null);
+const videoEntries = (
+  await Promise.all(relatedVideos.map((id) => getEntry('videos', id)))
 ).filter((e) => e != null);
 
 const all = (await getCollection('blog')).sort(
@@ -100,6 +107,41 @@ const more = all.filter((p) => p.id !== post.id).slice(0, 3);
         <p class="mt-4 text-xs leading-relaxed text-ink-faint dark:text-cream/50">
           Partners never see an entry before it is published, and the opinions — like the journeys — are entirely my own.
         </p>
+      </aside>
+    )}
+
+    {(marketEntries.length > 0 || videoEntries.length > 0) && (
+      <aside class="mt-14 border-t border-limestone/50 pt-10 dark:border-cream/10">
+        <p class="script text-2xl">From this journey</p>
+        <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+          {marketEntries.map((m) => (
+            <li>
+              <a href={withBase(`/markets/${m.id}/`)} class="group flex items-center gap-4 border border-limestone/60 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10">
+                <img src={withBase(m.data.images[0])} alt="" class="size-14 shrink-0 rounded-[2px] object-cover" loading="lazy" />
+                <span>
+                  <span class="block text-[0.58rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">Found at the market</span>
+                  <span class="mt-0.5 block font-display font-semibold leading-snug text-ink group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">{m.data.name}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+          {videoEntries.map((v) => (
+            <li>
+              <a href={withBase('/films/')} class="group flex items-center gap-4 border border-limestone/60 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10">
+                <span class="relative size-14 shrink-0 overflow-hidden rounded-[2px]">
+                  <img src={withBase(v.data.thumbnail)} alt="" class="h-full w-full object-cover" loading="lazy" />
+                  <span class="absolute inset-0 grid place-items-center bg-ink/30 text-cream-hi">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+                  </span>
+                </span>
+                <span>
+                  <span class="block text-[0.58rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">Watch · {v.data.duration}</span>
+                  <span class="mt-0.5 block font-display font-semibold leading-snug text-ink group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">{v.data.title}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </aside>
     )}
 

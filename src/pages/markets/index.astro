@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MarketFindCard from '../../components/MarketFindCard.astro';
+import Decor from '../../components/Decor.astro';
+
+const finds = (await getCollection('marketFinds')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const categories = [...new Set(finds.map((f) => f.data.category))].sort();
+---
+
+<BaseLayout
+  title="Found at the Market — The Unhurried Traveler"
+  description="Things discovered, purchased, tasted, learned, photographed, or regrettably surrendered to customs at Europe's markets."
+>
+  <section class="mx-auto max-w-7xl px-6 pt-32 sm:px-8">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="reveal max-w-2xl">
+        <p class="flex items-center gap-3"><span class="rule-tick"></span><span class="eyebrow">Markets</span></p>
+        <h1 class="mt-4 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-6xl dark:text-cream">Found at the Market</h1>
+        <p class="mt-4 text-base leading-relaxed text-ink-soft dark:text-cream/65">
+          A collection of discoveries: things bought, tasted, learned, photographed, and — on one memorable occasion —
+          surrendered to U.S. Customs. Not a shopping guide. More like evidence.
+        </p>
+      </div>
+      <Decor name="olive" class="reveal hidden w-36 text-olive/70 sm:block" />
+    </div>
+
+    <!-- category filter -->
+    <div class="reveal mt-12 flex flex-wrap gap-2 border-t border-limestone/50 pt-8 dark:border-cream/8" role="group" aria-label="Filter finds by category">
+      <button type="button" data-filter="all" class="filter-chip is-active">All</button>
+      {categories.map((c) => (
+        <button type="button" data-filter={c} class="filter-chip">{c}</button>
+      ))}
+    </div>
+
+    <div class="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3" id="find-grid">
+      {finds.map((find, i) => (
+        <div data-category={find.data.category} class="find-cell">
+          <MarketFindCard find={find} delay={Math.min(i, 5) * 90} />
+        </div>
+      ))}
+    </div>
+
+    <p id="no-results" class="mt-16 hidden text-center text-sm text-ink-faint dark:text-cream/50">
+      Nothing in that category yet — but the markets aren't going anywhere.
+    </p>
+  </section>
+
+  <style>
+    .filter-chip {
+      border: 1px solid color-mix(in srgb, var(--color-limestone-dark) 55%, transparent);
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-ink-soft);
+      transition: all 200ms ease;
+    }
+    :global(.dark) .filter-chip { color: color-mix(in srgb, var(--color-cream) 80%, transparent); border-color: color-mix(in srgb, var(--color-cream) 15%, transparent); }
+    .filter-chip:hover { border-color: var(--color-terracotta); color: var(--color-terracotta-dark); }
+    .filter-chip.is-active { background: var(--color-terracotta); border-color: var(--color-terracotta); color: var(--color-cream-hi); }
+  </style>
+
+  <script>
+    function armFilters() {
+      const chips = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+      const cells = document.querySelectorAll<HTMLElement>('.find-cell');
+      const empty = document.getElementById('no-results');
+      if (!chips.length || chips[0].dataset.armed) return;
+      chips[0].dataset.armed = 'true';
+
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          chips.forEach((c) => c.classList.toggle('is-active', c === chip));
+          const filter = chip.dataset.filter;
+          let visible = 0;
+          cells.forEach((cell) => {
+            const show = filter === 'all' || cell.dataset.category === filter;
+            cell.style.display = show ? '' : 'none';
+            if (show) visible++;
+          });
+          empty?.classList.toggle('hidden', visible > 0);
+        });
+      });
+    }
+    armFilters();
+    document.addEventListener('astro:page-load', armFilters);
+  </script>
+</BaseLayout>

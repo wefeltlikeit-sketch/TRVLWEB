@@ -7,6 +7,9 @@ coordinates: [1.2167, 44.8833]
 tags: ["France", "Solo Travel", "Architecture", "Road Trip"]
 sponsors: ["dji-osmo", "booking-com"]
 featured: true
+relatedMarketFinds: ["comte-eighteen-months", "sarlat-goose-square"]
+relatedVideos: ["sarlat-market-morning"]
+relatedDestination: "dordogne"
 ---
 
 There is a particular kind of quiet in the Dordogne valley at seven in the morning. The mist sits low on the river, the honey-coloured stone of the villages has not yet warmed, and for an hour or two the entire medieval world belongs to you.

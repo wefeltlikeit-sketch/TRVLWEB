@@ -1,0 +1,135 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MarketFindCard from '../../components/MarketFindCard.astro';
+import { withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+  const finds = await getCollection('marketFinds');
+  return finds.map((find) => ({
+    params: { slug: find.id },
+    props: { find },
+  }));
+}
+
+const { find } = Astro.props;
+const { Content } = await render(find);
+const { name, market, town, country, date, category, price, description, outcome, vendorNote, images, relatedPost, relatedVideo } = find.data;
+
+const dateLabel = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const post = relatedPost ? await getEntry('blog', relatedPost) : null;
+const video = relatedVideo ? await getEntry('videos', relatedVideo) : null;
+
+const more = (await getCollection('marketFinds'))
+  .filter((f) => f.id !== find.id)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title={`${name} — Found at the Market`} description={description} ogImage={images[0]}>
+  <section class="mx-auto max-w-5xl px-6 pt-36 sm:px-8">
+    <p class="reveal text-center">
+      <a href={withBase('/markets/')} class="eyebrow transition-colors hover:text-terracotta">← Found at the Market</a>
+    </p>
+
+    <div class="mt-10 grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-start">
+      <!-- photo(s) -->
+      <div class="space-y-8">
+        <figure class="reveal print-frame relative -rotate-1">
+          <img src={withBase(images[0])} alt={name} class="w-full rounded-[2px] object-cover" loading="eager" />
+          {outcome && <span class="stamp-label absolute -right-3 top-4">{outcome}</span>}
+          <figcaption class="caption-hand mt-2 text-center">{market}, {town.split(',')[0]}</figcaption>
+        </figure>
+        {images.slice(1).map((img, i) => (
+          <figure class:list={['reveal print-frame', i % 2 ? '-rotate-1' : 'rotate-1']}>
+            <img src={withBase(img)} alt="" class="w-full rounded-[2px] object-cover" loading="lazy" />
+          </figure>
+        ))}
+      </div>
+
+      <!-- details -->
+      <div class="lg:pt-4">
+        <p class="reveal text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">
+          {town} · {country}
+        </p>
+        <h1 class="reveal mt-3 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl dark:text-cream">{name}</h1>
+        <p class="reveal mt-5 font-display text-lg italic leading-relaxed text-ink-soft dark:text-cream/75">{description}</p>
+
+        <dl class="reveal mt-8 grid grid-cols-2 gap-3 text-sm">
+          <div class="border border-limestone/60 p-4 dark:border-cream/10">
+            <dt class="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">Market</dt>
+            <dd class="mt-1 font-medium text-ink dark:text-cream">{market}</dd>
+          </div>
+          <div class="border border-limestone/60 p-4 dark:border-cream/10">
+            <dt class="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">Date</dt>
+            <dd class="mt-1 font-medium text-ink dark:text-cream">{dateLabel}</dd>
+          </div>
+          <div class="border border-limestone/60 p-4 dark:border-cream/10">
+            <dt class="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">Category</dt>
+            <dd class="mt-1 font-medium text-ink dark:text-cream">{category}</dd>
+          </div>
+          <div class="border border-limestone/60 p-4 dark:border-cream/10">
+            <dt class="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">Price</dt>
+            <dd class="mt-1 font-medium text-ink dark:text-cream">{price ?? 'Not remembered'}</dd>
+          </div>
+        </dl>
+
+        {vendorNote && (
+          <p class="reveal mt-6 border-l-2 border-terracotta pl-4 text-sm italic leading-relaxed text-ink-soft dark:text-cream/70">
+            {vendorNote}
+          </p>
+        )}
+
+        {(post || video) && (
+          <div class="reveal mt-8 flex flex-wrap gap-4">
+            {post && (
+              <a href={withBase(`/blog/${post.id}/`)} class="inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-terracotta-dark transition-transform duration-300 hover:translate-x-1 dark:text-terracotta-light">
+                From this trip: {post.data.title.split(':')[0]}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+              </a>
+            )}
+            {video && (
+              <a href={withBase('/films/')} class="inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-terracotta-dark transition-transform duration-300 hover:translate-x-1 dark:text-terracotta-light">
+                Watch: {video.data.title}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+
+    <article class="prose-journal mx-auto mt-16 max-w-3xl">
+      <Content />
+    </article>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-6 pt-24 sm:px-8">
+    <p class="reveal script text-2xl">More from the markets</p>
+    <div class="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {more.map((f, i) => <MarketFindCard find={f} delay={i * 100} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .stamp-label {
+    display: inline-block;
+    transform: rotate(5deg);
+    border: 1.5px solid var(--color-terracotta);
+    border-radius: 3px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-terracotta-dark);
+    background: color-mix(in srgb, var(--color-cream-hi) 88%, transparent);
+    box-shadow: 0 1px 4px rgba(48, 46, 42, 0.15);
+  }
+  :global(.dark) .stamp-label {
+    color: var(--color-terracotta-light);
+    background: color-mix(in srgb, var(--color-dusk-900) 88%, transparent);
+  }
+</style>

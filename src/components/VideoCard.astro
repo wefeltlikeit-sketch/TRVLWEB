@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  video: CollectionEntry<'videos'>;
+  delay?: number;
+}
+
+const { video, delay = 0 } = Astro.props;
+const { title, youtubeId, thumbnail, location, duration, type, description } = video.data;
+
+// Real footage links straight to YouTube; entries still in the edit link to the Films page.
+const href = youtubeId ? `https://www.youtube-nocookie.com/watch?v=${youtubeId}` : withBase('/films/');
+const external = Boolean(youtubeId);
+---
+
+<article class="reveal group flex h-full flex-col" style={`--reveal-delay:${delay}ms`} data-video-type={type}>
+  <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined} class="flex h-full flex-col">
+    <div class="relative overflow-hidden rounded-[3px]">
+      <img
+        src={withBase(thumbnail)}
+        alt={title}
+        loading="lazy"
+        class="aspect-video w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent"></div>
+      <!-- play button -->
+      <span class="absolute left-1/2 top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-cream-hi/70 bg-ink/35 text-cream-hi backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-terracotta group-hover:border-terracotta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+      </span>
+      <span class="absolute bottom-3 right-3 rounded-sm bg-ink/75 px-1.5 py-0.5 text-[0.62rem] font-semibold tracking-wider text-cream-hi">{duration}</span>
+      <span class="absolute left-3 top-3 rounded-full bg-cream-hi/85 px-2.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-[0.14em] text-ink backdrop-blur-sm">{type}</span>
+    </div>
+
+    <div class="flex flex-1 flex-col pt-4">
+      <p class="text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">{location}</p>
+      <h3 class="mt-1.5 font-display text-lg font-semibold leading-snug tracking-tight text-ink transition-colors duration-200 group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">
+        {title}
+      </h3>
+      <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-soft dark:text-cream/65">{description}</p>
+    </div>
+  </a>
+</article>
