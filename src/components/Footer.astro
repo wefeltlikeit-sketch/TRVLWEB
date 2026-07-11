@@ -1,21 +1,23 @@
 ---
 import { withBase } from '../lib/paths';
+import Decor from './Decor.astro';
 
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-24 border-t border-limestone/40 bg-parchment dark:border-cream/8 dark:bg-dusk-900">
-  <div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
+<footer class="mt-24 border-t border-limestone/50 bg-parchment/60 dark:border-cream/8 dark:bg-dusk-900">
+  <div class="mx-auto grid max-w-7xl gap-10 px-6 py-16 sm:px-8 sm:grid-cols-2 lg:grid-cols-4">
     <div class="sm:col-span-2">
-      <p class="font-display text-xl font-semibold text-ink dark:text-cream">The Unhurried Traveler</p>
-      <p class="mt-3 max-w-sm text-sm leading-relaxed text-ink-soft/90 dark:text-cream/60">
+      <p class="font-display text-2xl font-semibold text-ink dark:text-cream">The Unhurried Traveler</p>
+      <p class="script mt-2 text-2xl">Take the long way around.</p>
+      <p class="mt-4 max-w-sm text-sm leading-relaxed text-ink-soft/90 dark:text-cream/60">
         Photographs and field notes from the roads between Europe's famous places — villages, markets,
         cheese worth remembering, and the odd drone shot from somewhere quiet.
       </p>
     </div>
 
     <nav aria-label="Footer">
-      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta-dark dark:text-terracotta-light">Explore</p>
+      <p class="eyebrow">Explore</p>
       <ul class="mt-4 space-y-2.5 text-sm">
         <li><a class="text-ink-soft/90 transition-colors hover:text-terracotta-dark dark:text-cream/70 dark:hover:text-terracotta-light" href={withBase('/blog/')}>Travel Journal</a></li>
         <li><a class="text-ink-soft/90 transition-colors hover:text-terracotta-dark dark:text-cream/70 dark:hover:text-terracotta-light" href={withBase('/destinations/')}>Travel Map</a></li>
@@ -25,16 +27,23 @@ const year = new Date().getFullYear();
     </nav>
 
     <div>
-      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta-dark dark:text-terracotta-light">Follow Along</p>
+      <p class="eyebrow">Follow Along</p>
       <ul class="mt-4 space-y-2.5 text-sm">
         <li><a class="text-ink-soft/90 transition-colors hover:text-terracotta-dark dark:text-cream/70 dark:hover:text-terracotta-light" href="https://www.youtube.com/" rel="noopener">YouTube</a></li>
         <li><a class="text-ink-soft/90 transition-colors hover:text-terracotta-dark dark:text-cream/70 dark:hover:text-terracotta-light" href="https://www.instagram.com/" rel="noopener">Instagram</a></li>
+        <li><a class="text-ink-soft/90 transition-colors hover:text-terracotta-dark dark:text-cream/70 dark:hover:text-terracotta-light" href="https://www.pinterest.com/" rel="noopener">Pinterest</a></li>
         <li><a class="text-ink-soft/90 transition-colors hover:text-terracotta-dark dark:text-cream/70 dark:hover:text-terracotta-light" href="mailto:wefeltlikeit@gmail.com">Email me</a></li>
       </ul>
     </div>
   </div>
 
-  <div class="border-t border-limestone/40 py-6 text-center text-xs text-ink-faint dark:border-cream/8 dark:text-cream/45">
-    © {year} The Unhurried Traveler · Wander widely, hurry never.
+  <div class="border-t border-limestone/50 dark:border-cream/8">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-ink-faint sm:flex-row sm:px-8 dark:text-cream/45">
+      <p>© {year} The Unhurried Traveler</p>
+      <p class="flex items-center gap-2">
+        <Decor name="compass" class="size-4 text-terracotta/60" />
+        Slow down. Look closer. Stay curious.
+      </p>
+    </div>
   </div>
 </footer>

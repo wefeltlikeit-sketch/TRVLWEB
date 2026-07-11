@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Decor from '../components/Decor.astro';
 import { withBase } from '../lib/paths';
 ---
 
 <BaseLayout title="Page not found — The Unhurried Traveler">
   <section class="mx-auto flex min-h-[70svh] max-w-3xl flex-col items-center justify-center px-6 pt-32 text-center">
-    <p class="font-display text-7xl font-semibold text-terracotta">404</p>
+    <Decor name="compass" class="w-16 text-terracotta/60" />
+    <p class="mt-4 font-display text-6xl font-semibold text-terracotta">404</p>
     <h1 class="mt-4 font-display text-3xl font-semibold tracking-tight text-ink dark:text-cream">
       A wrong turn — the best kind
     </h1>
@@ -15,7 +17,7 @@ import { withBase } from '../lib/paths';
     </p>
     <a
       href={withBase('/')}
-      class="mt-8 inline-flex items-center gap-2 rounded-lg bg-terracotta px-6 py-3.5 text-sm font-semibold text-cream-hi shadow-md shadow-terracotta/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-terracotta-dark"
+      class="mt-8 inline-flex items-center gap-2 bg-terracotta px-7 py-3.5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-cream-hi transition-all duration-200 hover:-translate-y-0.5 hover:bg-terracotta-dark"
     >
       Back to the start
     </a>

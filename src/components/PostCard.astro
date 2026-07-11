@@ -24,48 +24,47 @@ const destination = tags[0] ?? '';
 ---
 
 <article
-  class="reveal group relative flex flex-col overflow-hidden rounded-lg border border-limestone/50 bg-cream-hi shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-ink/10 dark:border-cream/10 dark:bg-dusk-800"
+  class="reveal group flex h-full flex-col"
   style={`--reveal-delay:${delay}ms`}
 >
   <a href={withBase(`/blog/${post.id}/`)} class="flex h-full flex-col">
-    <div class:list={['relative overflow-hidden', large ? 'aspect-[16/8.5]' : 'aspect-[4/3]']}>
+    <div class:list={['relative overflow-hidden rounded-[3px]', large ? 'aspect-[16/9]' : 'aspect-[4/3]']}>
       <img
         src={withBase(coverImage)}
         alt=""
         width="1200"
         height="800"
         loading="lazy"
-        class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+        class="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
       />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-90"></div>
       <div class="absolute inset-x-4 top-4 flex flex-wrap gap-2">
         {tags.slice(0, large ? 3 : 2).map((tag) => (
-          <span class="glass-deep rounded-full px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-wider text-cream-hi">
+          <span class="rounded-full bg-cream-hi/85 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-ink backdrop-blur-sm">
             {tag}
           </span>
         ))}
       </div>
     </div>
 
-    <div class="flex flex-1 flex-col p-6 sm:p-7">
-      <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium uppercase tracking-[0.14em] text-olive-dark dark:text-terracotta-light">
+    <div class="flex flex-1 flex-col pt-5">
+      <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-olive-dark dark:text-terracotta-light">
         {destination && <span>{destination}</span>}
-        {destination && <span aria-hidden="true" class="size-1 rounded-full bg-terracotta"></span>}
+        {destination && <span aria-hidden="true">·</span>}
         <span>{dateLabel}</span>
-        <span aria-hidden="true" class="size-1 rounded-full bg-terracotta"></span>
-        <span>{readMinutes} min read</span>
       </p>
       <h3 class:list={[
-        'mt-3 font-display font-semibold tracking-tight text-ink transition-colors duration-200 group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light',
-        large ? 'text-2xl sm:text-[1.7rem] leading-snug' : 'text-xl leading-snug',
+        'mt-2 font-display font-semibold leading-snug tracking-tight text-ink transition-colors duration-200 group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light',
+        large ? 'text-2xl sm:text-[1.8rem]' : 'text-xl',
       ]}>
         {title}
       </h3>
-      <p class="mt-3 line-clamp-3 text-sm leading-relaxed text-ink-soft dark:text-cream/65">
+      <p class="mt-2.5 line-clamp-3 text-sm leading-relaxed text-ink-soft dark:text-cream/65">
         {description}
       </p>
-      <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-dark transition-transform duration-300 group-hover:translate-x-1 dark:text-terracotta-light">
-        Read the entry
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <span class="mt-4 inline-flex items-center gap-1.5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-terracotta-dark transition-transform duration-300 group-hover:translate-x-1 dark:text-terracotta-light">
+        Read more
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M5 12h14m-6-6 6 6-6 6" />
         </svg>
       </span>

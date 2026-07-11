@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
+import Decor from '../components/Decor.astro';
 import { withBase } from '../lib/paths';
 
 const recent = (await getCollection('blog'))
@@ -9,22 +9,10 @@ const recent = (await getCollection('blog'))
   .slice(0, 4);
 
 const principles = [
-  {
-    title: 'One region, explored outward',
-    body: 'I pick a base and stay put — a village, a small town, sometimes a single street. Everything else is a day trip from there, on foot or by local train.',
-  },
-  {
-    title: 'The market before the museum',
-    body: 'A Saturday market tells you more about a place than most attractions do. I go for the cheese stalls and stay for the conversation.',
-  },
-  {
-    title: 'Honest about the letdowns',
-    body: "Some famous places are overrated at midday and wonderful at seven in the morning. A few just don't earn the queue. I'll tell you which is which.",
-  },
-  {
-    title: 'A camera, and increasingly a drone',
-    body: 'Photography is how I pay attention. The drone came later, mostly for the mornings when a village makes more sense from above.',
-  },
+  { title: 'One region, explored outward', body: 'I pick a base and stay put — a village, a small town, sometimes a single street. Everything else is a day trip from there, on foot or by local train.' },
+  { title: 'The market before the museum', body: 'A Saturday market tells you more about a place than most attractions do. I go for the cheese stalls and stay for the conversation.' },
+  { title: 'Honest about the letdowns', body: "Some famous places are overrated at midday and wonderful at seven in the morning. A few just don't earn the queue. I'll tell you which is which." },
+  { title: 'A camera, and increasingly a drone', body: 'Photography is how I pay attention. The drone came later, mostly for the mornings when a village makes more sense from above.' },
 ];
 ---
 
@@ -32,23 +20,24 @@ const principles = [
   title="About — The Unhurried Traveler"
   description="Who writes this, how the trips are planned, and what to expect from the journal, the map, and the gear list."
 >
-  <section class="mx-auto max-w-5xl px-6 pt-36">
-    <SectionHeading eyebrow="About" title="A slower way through Europe" />
+  <section class="mx-auto max-w-5xl px-6 pt-32 sm:px-8">
+    <div class="reveal max-w-2xl">
+      <p class="flex items-center gap-3"><span class="rule-tick"></span><span class="eyebrow">About</span></p>
+      <h1 class="mt-4 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-6xl dark:text-cream">A slower way through Europe</h1>
+    </div>
 
-    <div class="mt-12 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-      <figure class="reveal overflow-hidden rounded-lg border border-limestone/50 shadow-sm dark:border-cream/10">
+    <div class="mt-14 grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+      <figure class="reveal print-frame -rotate-2 self-start">
         <img
           src={withBase('/images/covers/traveler-portrait.svg')}
           alt="A traveler with a camera pausing at a stone wall overlook above a hilltop village"
-          class="aspect-[4/5] w-full object-cover"
+          class="aspect-[4/5] w-full rounded-[2px] object-cover"
           loading="eager"
         />
-        <figcaption class="caption-hand border-t border-limestone/40 bg-parchment px-5 py-3 text-base dark:border-cream/10 dark:bg-dusk-800">
-          most mornings start like this
-        </figcaption>
+        <figcaption class="caption-hand mt-2 text-center">most mornings start like this</figcaption>
       </figure>
 
-      <div class="prose-journal">
+      <div class="prose-journal lg:pt-4">
         <p>
           I took my first solo trip at an age when most travel writing assumes you've hung up your boots —
           a one-way ticket to Lisbon, one bag, no itinerary past the first three nights. That trip is part of
@@ -66,10 +55,13 @@ const principles = [
     </div>
 
     <div class="mt-20">
-      <h2 class="reveal font-display text-2xl font-semibold tracking-tight text-ink dark:text-cream">A few travel principles</h2>
-      <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      <div class="reveal flex items-center gap-4">
+        <Decor name="olive" class="w-24 text-olive/70" />
+        <h2 class="font-display text-2xl font-semibold tracking-tight text-ink dark:text-cream">A few travel principles</h2>
+      </div>
+      <div class="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2">
         {principles.map((p, i) => (
-          <div class="reveal rounded-lg border border-limestone/50 bg-cream-hi p-6 dark:border-cream/10 dark:bg-dusk-800" style={`--reveal-delay:${i * 100}ms`}>
+          <div class="reveal border-t border-limestone/60 pt-5 dark:border-cream/10" style={`--reveal-delay:${i * 100}ms`}>
             <h3 class="font-display text-lg font-semibold text-ink dark:text-cream">{p.title}</h3>
             <p class="mt-2 text-sm leading-relaxed text-ink-soft dark:text-cream/65">{p.body}</p>
           </div>
@@ -82,14 +74,8 @@ const principles = [
       <ul>
         <li><strong>The Journal</strong> — long-form field notes: routes, architecture, markets, and the practical craft of travelling well and slowly.</li>
         <li><strong>The Travel Map</strong> — every journey plotted, with honest notes on season and walking pace.</li>
-        <li><strong>Camera & Travel Gear</strong> — the one-bag setup, from trekking poles to the flying camera.</li>
+        <li><strong>Camera &amp; Travel Gear</strong> — the one-bag setup, from trekking poles to the flying camera.</li>
       </ul>
-      <h2>The honesty clause</h2>
-      <p>
-        A few entries mention partners who help keep the site running; they're always labelled, they never
-        see an entry before publication, and nothing appears here that I don't carry, use, or stand behind.
-        If a famous village is overrated, I'll say so — and tell you what time of year makes it worth it anyway.
-      </p>
       <blockquote>
         Every cathedral gets the time it deserves, every wrong turn is allowed, and lunch lasts exactly as
         long as it wants to.
@@ -97,35 +83,35 @@ const principles = [
     </div>
 
     <div class="mt-16">
-      <h2 class="reveal font-display text-2xl font-semibold tracking-tight text-ink dark:text-cream">Recent journeys</h2>
-      <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+      <h2 class="reveal script text-2xl">Recent journeys</h2>
+      <ul class="mt-5 grid gap-x-10 sm:grid-cols-2">
         {recent.map((post, i) => (
-          <li class="reveal" style={`--reveal-delay:${i * 90}ms`}>
+          <li class="reveal border-b border-limestone/50 dark:border-cream/8" style={`--reveal-delay:${i * 80}ms`}>
             <a
               href={withBase(`/blog/${post.id}/`)}
-              class="group flex items-center justify-between gap-4 rounded-lg border border-limestone/50 bg-cream-hi px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10 dark:bg-dusk-800"
+              class="group flex items-center justify-between gap-4 py-4"
             >
               <span class="font-display text-base font-semibold leading-snug text-ink group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">
                 {post.data.title}
               </span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="flex-none text-terracotta-dark transition-transform duration-300 group-hover:translate-x-1 dark:text-terracotta-light"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="flex-none text-terracotta-dark transition-transform duration-300 group-hover:translate-x-1 dark:text-terracotta-light"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
             </a>
           </li>
         ))}
       </ul>
     </div>
 
-    <div class="reveal mt-14 flex flex-wrap gap-4">
+    <div class="reveal mt-14 flex flex-wrap gap-5">
       <a
         href={withBase('/blog/')}
-        class="inline-flex items-center gap-2 rounded-lg bg-terracotta px-6 py-3.5 text-sm font-semibold text-cream-hi shadow-md shadow-terracotta/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-terracotta-dark"
+        class="inline-flex items-center gap-2 bg-terracotta px-7 py-3.5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-cream-hi transition-all duration-200 hover:-translate-y-0.5 hover:bg-terracotta-dark"
       >
         Start with the journal
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
       </a>
       <a
         href="mailto:wefeltlikeit@gmail.com"
-        class="inline-flex items-center gap-2 rounded-lg border border-limestone-dark/40 px-6 py-3.5 text-sm font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-terracotta hover:text-terracotta-dark dark:border-cream/15 dark:text-cream/85 dark:hover:text-terracotta-light"
+        class="inline-flex items-center gap-2 border border-limestone-dark/50 px-7 py-3.5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-terracotta hover:text-terracotta-dark dark:border-cream/15 dark:text-cream/85 dark:hover:text-terracotta-light"
       >
         Write to me
       </a>

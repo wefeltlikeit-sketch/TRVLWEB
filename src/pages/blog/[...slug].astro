@@ -21,12 +21,10 @@ const dateLabel = pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: '
 const words = (post.body ?? '').split(/\s+/).filter(Boolean).length;
 const readMinutes = Math.max(2, Math.round(words / 210));
 
-// Resolve sponsor names from the gear collection where possible
 const sponsorEntries = (
   await Promise.all(sponsors.map((id) => getEntry('gear', id)))
 ).filter((e) => e != null);
 
-// next/prev navigation
 const all = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
@@ -38,37 +36,42 @@ const more = all.filter((p) => p.id !== post.id).slice(0, 3);
 ---
 
 <BaseLayout title={`${title} — The Unhurried Traveler`} description={description} ogImage={coverImage}>
-  <!-- cover -->
-  <section class="relative flex min-h-[58svh] items-end overflow-hidden">
-    <img src={withBase(coverImage)} alt="" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
-    <div class="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/15 to-transparent"></div>
-
-    <div class="relative mx-auto w-full max-w-3xl px-6 pb-14 pt-44">
-      <div class="flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <span class="glass-deep rounded-full px-3.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-wider text-cream-hi">{tag}</span>
-        ))}
-      </div>
-      <h1 class="mt-5 font-display text-3xl font-semibold leading-[1.14] tracking-tight text-cream-hi sm:text-5xl">
-        {title}
-      </h1>
-      <p class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium uppercase tracking-[0.16em] text-terracotta-light">
-        <span>{dateLabel}</span>
-        <span aria-hidden="true" class="size-1 rounded-full bg-terracotta-light"></span>
-        <span>{readMinutes} min read</span>
-        {coordinates && (
-          <>
-            <span aria-hidden="true" class="size-1 rounded-full bg-terracotta-light"></span>
-            <span>{Math.abs(coordinates[1]).toFixed(2)}°{coordinates[1] >= 0 ? 'N' : 'S'} {Math.abs(coordinates[0]).toFixed(2)}°{coordinates[0] >= 0 ? 'E' : 'W'}</span>
-          </>
-        )}
-      </p>
-    </div>
+  <!-- title block on paper -->
+  <section class="mx-auto max-w-3xl px-6 pt-36 text-center">
+    <p class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-olive-dark dark:text-terracotta-light">
+      {tags.slice(0, 3).map((tag, i) => (
+        <>
+          {i > 0 && <span aria-hidden="true">·</span>}
+          <span>{tag}</span>
+        </>
+      ))}
+    </p>
+    <h1 class="mt-5 font-display text-4xl font-semibold leading-[1.12] tracking-tight text-ink sm:text-5xl dark:text-cream">
+      {title}
+    </h1>
+    <p class="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs font-medium uppercase tracking-[0.14em] text-ink-faint dark:text-cream/50">
+      <span>{dateLabel}</span>
+      <span aria-hidden="true">·</span>
+      <span>{readMinutes} min read</span>
+      {coordinates && (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>{Math.abs(coordinates[1]).toFixed(2)}°{coordinates[1] >= 0 ? 'N' : 'S'} {Math.abs(coordinates[0]).toFixed(2)}°{coordinates[0] >= 0 ? 'E' : 'W'}</span>
+        </>
+      )}
+    </p>
   </section>
 
+  <!-- cover photo -->
+  <figure class="mx-auto mt-10 max-w-5xl px-6">
+    <div class="overflow-hidden rounded-[3px]">
+      <img src={withBase(coverImage)} alt="" class="aspect-[16/9] w-full object-cover" fetchpriority="high" />
+    </div>
+  </figure>
+
   <!-- body -->
-  <article class="mx-auto max-w-3xl px-6 pt-14">
-    <p class="font-display text-xl leading-relaxed text-ink sm:text-[1.35rem] dark:text-cream">
+  <article class="mx-auto max-w-3xl px-6 pt-12">
+    <p class="font-display text-xl italic leading-relaxed text-ink sm:text-[1.4rem] dark:text-cream">
       {description}
     </p>
 
@@ -79,10 +82,8 @@ const more = all.filter((p) => p.id !== post.id).slice(0, 3);
     </div>
 
     {sponsorEntries.length > 0 && (
-      <aside class="mt-14 rounded-lg border border-limestone/50 bg-parchment p-7 dark:border-cream/10 dark:bg-dusk-800">
-        <p class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-terracotta-dark dark:text-terracotta-light">
-          Made possible by
-        </p>
+      <aside class="mt-14 border border-limestone/60 bg-parchment/50 p-7 dark:border-cream/10 dark:bg-dusk-800">
+        <p class="eyebrow">Made possible by</p>
         <ul class="mt-4 flex flex-wrap gap-x-8 gap-y-3">
           {sponsorEntries.map((s) => (
             <li>
@@ -102,28 +103,26 @@ const more = all.filter((p) => p.id !== post.id).slice(0, 3);
       </aside>
     )}
 
-    <!-- next / prev -->
     <nav class="mt-14 grid gap-4 border-t border-limestone/50 pt-10 sm:grid-cols-2 dark:border-cream/10" aria-label="More entries">
       {older ? (
-        <a href={withBase(`/blog/${older.id}/`)} class="group rounded-lg border border-limestone/50 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10">
-          <p class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-ink-faint dark:text-cream/40">← Earlier journey</p>
+        <a href={withBase(`/blog/${older.id}/`)} class="group border border-limestone/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10">
+          <p class="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-ink-faint dark:text-cream/40">← Earlier journey</p>
           <p class="mt-2 font-display font-semibold leading-snug text-ink group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">{older.data.title}</p>
         </a>
       ) : <span></span>}
       {newer && (
-        <a href={withBase(`/blog/${newer.id}/`)} class="group rounded-lg border border-limestone/50 p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10">
-          <p class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-ink-faint dark:text-cream/40">Later journey →</p>
+        <a href={withBase(`/blog/${newer.id}/`)} class="group border border-limestone/60 p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10">
+          <p class="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-ink-faint dark:text-cream/40">Later journey →</p>
           <p class="mt-2 font-display font-semibold leading-snug text-ink group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">{newer.data.title}</p>
         </a>
       )}
     </nav>
   </article>
 
-  <!-- more entries -->
-  <section class="mx-auto max-w-6xl px-6 pt-24">
+  <section class="mx-auto max-w-7xl px-6 pt-24 sm:px-8">
     <h2 class="reveal font-display text-2xl font-semibold tracking-tight text-ink dark:text-cream">Keep reading</h2>
-    <div class="mt-8 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-      {more.map((p, i) => <PostCard post={p} delay={i * 110} />)}
+    <div class="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {more.map((p, i) => <PostCard post={p} delay={i * 100} />)}
     </div>
   </section>
 </BaseLayout>

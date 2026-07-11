@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
-import SectionHeading from '../../components/SectionHeading.astro';
+import Decor from '../../components/Decor.astro';
 import { withBase } from '../../lib/paths';
 
 const posts = (await getCollection('blog')).sort(
@@ -11,86 +11,59 @@ const posts = (await getCollection('blog')).sort(
 
 const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 
-const featured = posts.slice(0, 2);
-const rest = posts.slice(2);
+const lead = posts[0];
+const rest = posts.slice(1);
 
 const dateLabel = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
 <BaseLayout
   title="Travel Journal — The Unhurried Traveler"
-  description="Deep-dive travel notes and photographs from across Europe: villages, architecture, markets, and the practical craft of getting somewhere slowly."
+  description="Long-form field notes and photographs from across Europe: villages, architecture, markets, and the craft of going somewhere slowly."
 >
-  <section class="mx-auto max-w-6xl px-6 pt-36">
-    <SectionHeading
-      eyebrow="The Journal"
-      title="Field notes from the road"
-      intro="Every entry starts with a place I went to see for myself — written for travelers who'd rather know one place well than five from a coach window."
-    />
+  <section class="mx-auto max-w-7xl px-6 pt-32 sm:px-8">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="reveal max-w-2xl">
+        <p class="flex items-center gap-3"><span class="rule-tick"></span><span class="eyebrow">The Journal</span></p>
+        <h1 class="mt-4 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-6xl dark:text-cream">Field notes from the road</h1>
+        <p class="mt-4 text-base leading-relaxed text-ink-soft dark:text-cream/65">
+          Every entry starts with a place I went to see for myself — written for travelers who'd rather know one place well than five from a coach window.
+        </p>
+      </div>
+      <Decor name="camera" class="reveal hidden w-28 text-ink/25 sm:block dark:text-cream/20" />
+    </div>
+
+    <!-- lead entry -->
+    <article data-tags={lead.data.tags.join('|')} class="post-cell reveal group mt-12 grid gap-8 lg:grid-cols-2 lg:items-center">
+      <a href={withBase(`/blog/${lead.id}/`)} class="relative overflow-hidden rounded-[3px]">
+        <img src={withBase(lead.data.coverImage)} alt="" class="aspect-[16/11] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]" fetchpriority="high" />
+        <span class="absolute left-5 top-5 bg-terracotta px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-cream-hi">Latest</span>
+      </a>
+      <div>
+        <p class="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-olive-dark dark:text-terracotta-light">{lead.data.tags[0]} · {dateLabel(lead.data.pubDate)}</p>
+        <a href={withBase(`/blog/${lead.id}/`)}>
+          <h2 class="mt-2 font-display text-3xl font-semibold leading-snug tracking-tight text-ink transition-colors group-hover:text-terracotta-dark sm:text-4xl dark:text-cream dark:group-hover:text-terracotta-light">{lead.data.title}</h2>
+        </a>
+        <p class="mt-4 max-w-lg text-base leading-relaxed text-ink-soft dark:text-cream/65">{lead.data.description}</p>
+        <span class="mt-5 inline-flex items-center gap-2 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-terracotta-dark transition-transform duration-300 group-hover:translate-x-1 dark:text-terracotta-light">
+          Read the story
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </span>
+      </div>
+    </article>
 
     <!-- tag filter -->
-    <div class="reveal mt-10 flex flex-wrap gap-2" role="group" aria-label="Filter entries by tag">
-      <button
-        type="button"
-        data-filter="all"
-        class="filter-chip is-active rounded-full border border-limestone-dark/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-ink transition-all duration-200 dark:border-cream/15 dark:text-cream/80"
-      >
-        All
-      </button>
+    <div class="reveal mt-16 flex flex-wrap gap-2 border-t border-limestone/50 pt-8 dark:border-cream/8" role="group" aria-label="Filter entries by tag">
+      <button type="button" data-filter="all" class="filter-chip is-active">All</button>
       {tags.map((tag) => (
-        <button
-          type="button"
-          data-filter={tag}
-          class="filter-chip rounded-full border border-limestone-dark/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-ink transition-all duration-200 dark:border-cream/15 dark:text-cream/80"
-        >
-          {tag}
-        </button>
+        <button type="button" data-filter={tag} class="filter-chip">{tag}</button>
       ))}
     </div>
 
-    <!-- featured entries: alternating image/text layout -->
-    <div class="mt-12 flex flex-col gap-8" id="featured-grid">
-      {featured.map((post, i) => (
-        <div data-tags={post.data.tags.join('|')} class="post-cell">
-          <article class:list={[
-            'reveal group grid overflow-hidden rounded-lg border border-limestone/50 bg-cream-hi shadow-sm transition-all duration-500 hover:shadow-lg hover:shadow-ink/10 dark:border-cream/10 dark:bg-dusk-800 lg:grid-cols-2',
-          ]} style={`--reveal-delay:${i * 120}ms`}>
-            <a
-              href={withBase(`/blog/${post.id}/`)}
-              class:list={['relative aspect-[16/10] overflow-hidden lg:aspect-auto', i % 2 === 1 && 'lg:order-2']}
-            >
-              <img
-                src={withBase(post.data.coverImage)}
-                alt=""
-                loading={i === 0 ? 'eager' : 'lazy'}
-                class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-              />
-              <div class="absolute inset-x-4 top-4 flex flex-wrap gap-2">
-                {post.data.tags.slice(0, 3).map((tag) => (
-                  <span class="glass-deep rounded-full px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-wider text-cream-hi">{tag}</span>
-                ))}
-              </div>
-            </a>
-            <a href={withBase(`/blog/${post.id}/`)} class="flex flex-col justify-center p-8 sm:p-10">
-              <p class="text-xs font-medium uppercase tracking-[0.14em] text-olive-dark dark:text-terracotta-light">{dateLabel(post.data.pubDate)}</p>
-              <h3 class="mt-3 font-display text-2xl font-semibold leading-snug tracking-tight text-ink transition-colors duration-200 group-hover:text-terracotta-dark sm:text-[1.7rem] dark:text-cream dark:group-hover:text-terracotta-light">
-                {post.data.title}
-              </h3>
-              <p class="mt-3 text-sm leading-relaxed text-ink-soft dark:text-cream/65">{post.data.description}</p>
-              <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-dark transition-transform duration-300 group-hover:translate-x-1 dark:text-terracotta-light">
-                Read the entry
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-              </span>
-            </a>
-          </article>
-        </div>
-      ))}
-    </div>
-
-    <div class="mt-8 grid gap-7 md:grid-cols-2 lg:grid-cols-3" id="post-grid">
+    <div class="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3" id="post-grid">
       {rest.map((post, i) => (
         <div data-tags={post.data.tags.join('|')} class="post-cell">
-          <PostCard post={post} delay={Math.min(i, 5) * 100} />
+          <PostCard post={post} delay={Math.min(i, 5) * 90} />
         </div>
       ))}
     </div>
@@ -101,15 +74,20 @@ const dateLabel = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', m
   </section>
 
   <style>
-    .filter-chip:hover {
-      border-color: var(--color-terracotta);
-      color: var(--color-terracotta-dark);
+    .filter-chip {
+      border: 1px solid color-mix(in srgb, var(--color-limestone-dark) 55%, transparent);
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-ink-soft);
+      transition: all 200ms ease;
     }
-    .filter-chip.is-active {
-      background: var(--color-terracotta);
-      border-color: var(--color-terracotta);
-      color: var(--color-cream-hi);
-    }
+    :global(.dark) .filter-chip { color: color-mix(in srgb, var(--color-cream) 80%, transparent); border-color: color-mix(in srgb, var(--color-cream) 15%, transparent); }
+    .filter-chip:hover { border-color: var(--color-terracotta); color: var(--color-terracotta-dark); }
+    .filter-chip.is-active { background: var(--color-terracotta); border-color: var(--color-terracotta); color: var(--color-cream-hi); }
   </style>
 
   <script>
