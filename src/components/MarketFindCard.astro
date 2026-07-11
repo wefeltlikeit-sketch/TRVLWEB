@@ -1,0 +1,72 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  find: CollectionEntry<'marketFinds'>;
+  delay?: number;
+  large?: boolean;
+}
+
+const { find, delay = 0, large = false } = Astro.props;
+const { name, market, town, country, category, description, outcome, price, images } = find.data;
+---
+
+<article class="reveal group relative flex h-full flex-col" style={`--reveal-delay:${delay}ms`}>
+  <a href={withBase(`/markets/${find.id}/`)} class="flex h-full flex-col">
+    <div class="print-frame relative">
+      <div class="relative overflow-hidden">
+        <img
+          src={withBase(images[0])}
+          alt={name}
+          loading="lazy"
+          class:list={['w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]', large ? 'aspect-[4/3]' : 'aspect-square']}
+        />
+      </div>
+      {outcome && (
+        <span class="stamp-label absolute -right-2.5 top-3">{outcome}</span>
+      )}
+    </div>
+
+    <div class="flex flex-1 flex-col pt-5">
+      <p class="text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">
+        {town} · {country}
+      </p>
+      <h3 class:list={[
+        'mt-1.5 font-display font-semibold leading-snug tracking-tight text-ink transition-colors duration-200 group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light',
+        large ? 'text-2xl' : 'text-xl',
+      ]}>
+        {name}
+      </h3>
+      <p class:list={['mt-2 text-sm leading-relaxed text-ink-soft dark:text-cream/65', large ? 'line-clamp-3' : 'line-clamp-2']}>
+        {description}
+      </p>
+      <p class="mt-3 text-xs text-ink-faint dark:text-cream/50">
+        <span class="font-semibold uppercase tracking-wider">{category}</span>
+        {price && <span> · {price}</span>}
+        <span> · {market}</span>
+      </p>
+    </div>
+  </a>
+</article>
+
+<style>
+  .stamp-label {
+    display: inline-block;
+    transform: rotate(4deg);
+    border: 1.5px solid var(--color-terracotta);
+    border-radius: 3px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-terracotta-dark);
+    background: color-mix(in srgb, var(--color-cream-hi) 88%, transparent);
+    box-shadow: 0 1px 4px rgba(48, 46, 42, 0.15);
+  }
+  :global(.dark) .stamp-label {
+    color: var(--color-terracotta-light);
+    background: color-mix(in srgb, var(--color-dusk-900) 88%, transparent);
+  }
+</style>

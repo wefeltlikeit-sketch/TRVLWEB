@@ -1,10 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
-import GearCard from '../components/GearCard.astro';
 import EuropeMap from '../components/EuropeMap.astro';
 import SectionHeading from '../components/SectionHeading.astro';
+import MarketFindCard from '../components/MarketFindCard.astro';
+import VideoCard from '../components/VideoCard.astro';
+import LiteYouTube from '../components/LiteYouTube.astro';
 import Decor from '../components/Decor.astro';
 import { withBase } from '../lib/paths';
 
@@ -12,33 +13,53 @@ const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 const featured = posts[0];
-const secondary = posts.slice(1, 3);
-const latest = posts.slice(0, 3);
+const photoLed = posts[1];
+const textLed = posts[2];
 
-const gear = (await getCollection('gear')).sort(
-  (a, b) => Number(b.data.sponsor) - Number(a.data.sponsor)
-).slice(0, 3);
+const finds = (await getCollection('marketFinds')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const featuredFind = finds.find((f) => f.data.featured) ?? finds[0];
+const smallFinds = finds.filter((f) => f.id !== featuredFind.id).slice(0, 2);
 
-const destinationCount = (await getCollection('destinations')).length;
+const videos = (await getCollection('videos')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const featuredVideo = videos.find((v) => v.data.featured) ?? videos[0];
+const smallVideos = videos.filter((v) => v.id !== featuredVideo.id).slice(0, 2);
 
 const dateLabel = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-const strip = [
-  { src: '/images/photos/citroen-village.jpg', cap: 'The long way around' },
-  { src: '/images/photos/sarlat-geese.jpg', cap: 'Sarlat, and its geese' },
-  { src: '/images/photos/vienna-christmas-market.jpg', cap: 'Christkindlmarkt, Vienna' },
-  { src: '/images/photos/eilean-donan-castle.jpg', cap: 'Eilean Donan, Scotland' },
-];
-
 const habits = [
-  { title: 'One region, explored outward', body: 'Pick a base and stay put. Everything else becomes a short drive or a slow train — and the place has time to reveal itself.' },
-  { title: 'The market before the museum', body: 'A Saturday market says more about a town than most attractions do. Go for the cheese; stay for the conversation.' },
-  { title: 'Shoulder season, always', body: 'Spring and autumn light is longer and kinder, the villages are quieter, and the good tables have room.' },
+  {
+    title: 'One region at a time',
+    body: 'Pick a base and stay put. Everything else becomes a short drive or a slow train — and the place has time to reveal itself.',
+    img: '/images/photos/eilean-donan-castle.jpg',
+    cap: 'a base worth staying for',
+  },
+  {
+    title: 'Markets before monuments',
+    body: 'A Saturday market says more about a town than most attractions do. Go for the cheese; stay for the conversation.',
+    img: '/images/photos/vienna-christmas-market.jpg',
+    cap: 'Vienna, before the crowds thickened',
+  },
+  {
+    title: 'Shoulder season, whenever possible',
+    body: 'Spring and autumn light is longer and kinder, the villages are quieter, and the good tables have room.',
+    img: '/images/photos/sarlat-geese.jpg',
+    cap: 'the square, before nine',
+  },
+  {
+    title: 'Take the long road',
+    body: 'The fastest route has never once been the story. Leave room in the day for the village that was not on the itinerary.',
+    img: '/images/photos/citroen-village.jpg',
+    cap: 'built for exactly this',
+  },
 ];
 ---
 
 <BaseLayout title="The Unhurried Traveler — European Travel Journal & Photography">
-  <!-- ============ HERO ============ -->
+  <!-- ============ 1. HERO ============ -->
   <section class="relative pt-[68px]">
     <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
       <!-- photo -->
@@ -81,28 +102,15 @@ const habits = [
               href={withBase('/blog/')}
               class="inline-flex items-center gap-2.5 bg-olive-dark px-7 py-3.5 text-[0.72rem] font-bold uppercase tracking-[0.18em] text-cream-hi transition-all duration-200 hover:bg-terracotta-dark"
             >
-              Latest Journal Entry
+              Explore the Journal
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
             </a>
             <a
               href={withBase('/destinations/')}
               class="group inline-flex items-center gap-2 text-[0.72rem] font-bold uppercase tracking-[0.18em] text-ink transition-colors hover:text-terracotta-dark dark:text-cream dark:hover:text-terracotta-light"
             >
-              <span class="border-b border-terracotta/50 pb-1 transition-colors group-hover:border-terracotta">View the Travel Map</span>
+              <span class="border-b border-terracotta/50 pb-1 transition-colors group-hover:border-terracotta">View Destinations</span>
             </a>
-          </div>
-
-          <div class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
-            {[
-              [`${destinationCount}`, 'destinations'],
-              [`${posts.length}`, 'journal entries'],
-              ['1', 'bag, never checked'],
-            ].map(([n, label]) => (
-              <p class="flex items-baseline gap-2">
-                <span class="font-display text-2xl font-semibold text-terracotta-dark dark:text-terracotta-light">{n}</span>
-                <span class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-faint dark:text-cream/55">{label}</span>
-              </p>
-            ))}
           </div>
 
           <Decor name="seal" label="THE ROADS BETWEEN" sublabel="THE FAMOUS PLACES" class="absolute -top-2 right-0 hidden size-24 text-terracotta/45 lg:block" />
@@ -111,7 +119,24 @@ const habits = [
     </div>
   </section>
 
-  <!-- ============ FROM THE JOURNAL ============ -->
+  <!-- ============ 2. PHOTOGRAPHIC TRAVEL NOTE ============ -->
+  <section class="mx-auto max-w-7xl px-6 pt-20 sm:px-8">
+    <figure class="reveal relative overflow-hidden rounded-[3px]">
+      <img
+        src={withBase('/images/photos/citroen-village.jpg')}
+        alt="A pale grey classic Citroën parked beside a stone house on a quiet village road"
+        loading="lazy"
+        class="h-44 w-full object-cover object-[50%_62%] sm:h-56 lg:h-64"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-ink/55 via-ink/10 to-transparent"></div>
+      <figcaption class="absolute inset-x-0 bottom-0 flex flex-wrap items-baseline gap-x-4 gap-y-1 p-6 sm:p-8">
+        <span class="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-cream-hi/90">Dordogne, October 2025</span>
+        <span class="caption-hand text-cream-hi/95 drop-shadow-[0_1px_2px_rgba(48,46,42,0.6)]">somewhere between Beynac and a road I had no intention of taking</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ 3. FEATURED JOURNAL ============ -->
   <section class="mx-auto max-w-7xl px-6 pt-24 sm:px-8">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div class="reveal">
@@ -126,61 +151,120 @@ const habits = [
       </a>
     </div>
 
-    <div class="mt-10 grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-      <!-- featured -->
+    <div class="mt-10 grid gap-10 lg:grid-cols-[2fr_1fr]">
+      <!-- large featured story -->
       <article class="reveal group">
         <a href={withBase(`/blog/${featured.id}/`)} class="block">
           <div class="relative overflow-hidden rounded-[3px]">
-            <img src={withBase(featured.data.coverImage)} alt="" class="aspect-[16/11] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]" fetchpriority="high" />
+            <img src={withBase(featured.data.coverImage)} alt="" class="aspect-[16/10] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]" fetchpriority="high" />
             <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent"></div>
             <span class="absolute left-5 top-5 bg-terracotta px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-cream-hi">Featured</span>
             <div class="absolute inset-x-0 bottom-0 p-6 sm:p-8">
               <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-cream-hi/80">{featured.data.tags[0]} · {dateLabel(featured.data.pubDate)}</p>
-              <h3 class="mt-2 max-w-lg font-display text-2xl font-semibold leading-snug text-cream-hi sm:text-[2rem]">{featured.data.title}</h3>
+              <h3 class="mt-2 max-w-xl font-display text-2xl font-semibold leading-snug text-cream-hi sm:text-[2.1rem]">{featured.data.title}</h3>
+              <p class="mt-3 hidden max-w-lg text-sm leading-relaxed text-cream-hi/85 sm:block">{featured.data.description}</p>
+              <span class="mt-4 inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-cream-hi">
+                Read the story
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+              </span>
             </div>
           </div>
         </a>
       </article>
 
-      <!-- two secondary entries -->
-      <div class="flex flex-col justify-between gap-6">
-        {secondary.map((post, i) => (
-          <article class="reveal group flex gap-5" style={`--reveal-delay:${(i + 1) * 110}ms`}>
-            <a href={withBase(`/blog/${post.id}/`)} class="w-2/5 shrink-0 overflow-hidden rounded-[3px]">
-              <img src={withBase(post.data.coverImage)} alt="" class="aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]" loading="lazy" />
-            </a>
-            <div class="flex flex-col justify-center border-b border-limestone/50 pb-6 dark:border-cream/8">
-              <p class="text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-olive-dark dark:text-terracotta-light">{post.data.tags[0]} · {dateLabel(post.data.pubDate)}</p>
-              <a href={withBase(`/blog/${post.id}/`)}>
-                <h3 class="mt-1.5 font-display text-xl font-semibold leading-snug tracking-tight text-ink transition-colors group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">{post.data.title}</h3>
-              </a>
-              <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-soft dark:text-cream/60">{post.data.description}</p>
+      <!-- two varied secondary stories -->
+      <div class="flex flex-col gap-10">
+        <!-- photo-led -->
+        <article class="reveal group" style="--reveal-delay:110ms">
+          <a href={withBase(`/blog/${photoLed.id}/`)} class="block">
+            <div class="relative overflow-hidden rounded-[3px]">
+              <img src={withBase(photoLed.data.coverImage)} alt="" class="aspect-[4/3] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-ink/65 to-transparent"></div>
+              <div class="absolute inset-x-0 bottom-0 p-5">
+                <p class="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-cream-hi/80">{photoLed.data.tags[0]}</p>
+                <h3 class="mt-1 font-display text-xl font-semibold leading-snug text-cream-hi">{photoLed.data.title}</h3>
+              </div>
             </div>
-          </article>
-        ))}
+          </a>
+        </article>
+
+        <!-- text-led -->
+        <article class="reveal group border-t border-limestone/50 pt-6 dark:border-cream/8" style="--reveal-delay:220ms">
+          <a href={withBase(`/blog/${textLed.id}/`)} class="flex gap-5">
+            <div class="flex-1">
+              <p class="text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">{textLed.data.tags[0]} · {dateLabel(textLed.data.pubDate)}</p>
+              <h3 class="mt-2 font-display text-xl font-semibold leading-snug tracking-tight text-ink transition-colors group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">{textLed.data.title}</h3>
+              <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-ink-soft dark:text-cream/65">{textLed.data.description}</p>
+            </div>
+            <div class="w-24 shrink-0 overflow-hidden rounded-[3px] sm:w-28">
+              <img src={withBase(textLed.data.coverImage)} alt="" class="aspect-[3/4] h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]" loading="lazy" />
+            </div>
+          </a>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- ============ PHOTO STRIP ============ -->
-  <section class="mt-24 border-y border-limestone/50 bg-parchment/40 py-14 dark:border-cream/8 dark:bg-dusk-900/40">
+  <!-- ============ 4. FOUND AT THE MARKET ============ -->
+  <section class="mt-24 border-y border-limestone/50 bg-parchment/40 py-20 dark:border-cream/8 dark:bg-dusk-900/40">
     <div class="mx-auto max-w-7xl px-6 sm:px-8">
-      <div class="reveal flex items-center justify-between gap-4">
-        <p class="eyebrow">The Roads Between</p>
-        <span class="script text-xl">so many places, so little hurry</span>
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading
+          eyebrow="Markets"
+          title="Found at the Market"
+          intro="Things bought, tasted, learned, photographed — and occasionally surrendered to customs. The markets are half the reason for the trip."
+        />
+        <a href={withBase('/markets/')} class="reveal inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-terracotta-dark transition-transform duration-300 hover:translate-x-1 dark:text-terracotta-light">
+          All the finds
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </a>
       </div>
-      <div class="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {strip.map((s, i) => (
-          <figure class="reveal group relative overflow-hidden rounded-[3px]" style={`--reveal-delay:${i * 90}ms`}>
-            <img src={withBase(s.src)} alt={s.cap} loading="lazy" class="aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]" />
-            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent px-3 pb-2.5 pt-8 text-[0.68rem] font-medium text-cream-hi/90">{s.cap}</figcaption>
-          </figure>
-        ))}
+
+      <div class="mt-12 grid gap-10 lg:grid-cols-[1.2fr_1fr_1fr]">
+        <MarketFindCard find={featuredFind} large />
+        {smallFinds.map((find, i) => <MarketFindCard find={find} delay={(i + 1) * 110} />)}
       </div>
     </div>
   </section>
 
-  <!-- ============ MAP ============ -->
+  <!-- ============ 5. FROM ABOVE / FILMS ============ -->
+  <section class="mx-auto max-w-7xl px-6 pt-24 sm:px-8">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading
+        eyebrow="Films"
+        title="From Above"
+        intro="Drone perspectives, window seats, village walks, and market mornings — short films from the roads between."
+      />
+      <a href={withBase('/films/')} class="reveal inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-terracotta-dark transition-transform duration-300 hover:translate-x-1 dark:text-terracotta-light">
+        All films
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+      </a>
+    </div>
+
+    <div class="mt-12 grid gap-10 lg:grid-cols-[1.5fr_1fr]">
+      <!-- featured film -->
+      <div class="reveal">
+        <LiteYouTube
+          youtubeId={featuredVideo.data.youtubeId}
+          poster={featuredVideo.data.thumbnail}
+          title={featuredVideo.data.title}
+          duration={featuredVideo.data.duration}
+        />
+        <p class="mt-4 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">
+          {featuredVideo.data.type} · {featuredVideo.data.location}
+        </p>
+        <h3 class="mt-1.5 font-display text-2xl font-semibold leading-snug tracking-tight text-ink dark:text-cream">{featuredVideo.data.title}</h3>
+        <p class="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft dark:text-cream/65">{featuredVideo.data.description}</p>
+      </div>
+
+      <!-- secondary films -->
+      <div class="flex flex-col gap-8">
+        {smallVideos.map((video, i) => <VideoCard video={video} delay={(i + 1) * 110} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. DESTINATIONS ============ -->
   <section class="mx-auto max-w-7xl px-6 pt-24 sm:px-8">
     <div class="flex flex-wrap items-end justify-between gap-6">
       <SectionHeading
@@ -195,49 +279,57 @@ const habits = [
     </div>
   </section>
 
-  <!-- ============ NOTES / HABITS ============ -->
+  <!-- ============ 7. TRAVEL HABITS ============ -->
   <section class="mt-24 border-y border-limestone/50 bg-parchment/50 py-20 dark:border-cream/8 dark:bg-dusk-900/50">
-    <div class="mx-auto max-w-7xl px-6 sm:px-8">
+    <div class="mx-auto max-w-6xl px-6 sm:px-8">
       <div class="reveal flex flex-col items-center text-center">
         <Decor name="sprig" class="h-16 text-olive/70" />
         <p class="eyebrow mt-3">Notes from the Road</p>
         <h2 class="mt-3 font-display text-[2rem] font-semibold tracking-tight text-ink sm:text-[2.4rem] dark:text-cream">A few habits worth keeping</h2>
       </div>
-      <div class="mx-auto mt-12 grid max-w-5xl gap-10 md:grid-cols-3">
+
+      <div class="mt-14 space-y-14">
         {habits.map((h, i) => (
-          <div class="reveal text-center" style={`--reveal-delay:${i * 120}ms`}>
-            <span class="font-display text-3xl font-semibold text-terracotta/60 dark:text-terracotta-light/70">0{i + 1}</span>
-            <h3 class="mt-3 font-display text-xl font-semibold text-ink dark:text-cream">{h.title}</h3>
-            <p class="mt-2.5 text-sm leading-relaxed text-ink-soft dark:text-cream/65">{h.body}</p>
+          <div class:list={['reveal grid items-center gap-6 sm:gap-10 md:grid-cols-[2fr_3fr]', i % 2 === 1 && 'md:[&>*:first-child]:order-2']} style={`--reveal-delay:${(i % 2) * 90}ms`}>
+            <figure class="relative overflow-hidden rounded-[3px]">
+              <img src={withBase(h.img)} alt="" loading="lazy" class="aspect-[16/10] w-full object-cover" />
+              <figcaption class="caption-hand absolute bottom-3 left-4 text-xl text-cream-hi/95 drop-shadow-[0_1px_2px_rgba(48,46,42,0.6)]">{h.cap}</figcaption>
+            </figure>
+            <div class:list={[i % 2 === 1 && 'md:text-right']}>
+              <span class="font-display text-2xl font-semibold text-terracotta/60 dark:text-terracotta-light/70">0{i + 1}</span>
+              <h3 class="mt-2 font-display text-2xl font-semibold text-ink dark:text-cream">{h.title}</h3>
+              <p class="mt-3 max-w-md text-sm leading-relaxed text-ink-soft dark:text-cream/65" class:list={[i % 2 === 1 && 'md:ml-auto']}>{h.body}</p>
+            </div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ============ GEAR ============ -->
-  <section class="mx-auto max-w-7xl px-6 pt-24 sm:px-8">
-    <div class="flex flex-wrap items-end justify-between gap-6">
-      <SectionHeading
-        eyebrow="What I Carry"
-        title="Gear that earns its place"
-        intro="Everything fits in one bag I can lift overhead myself. These are the pieces that survive the cut, trip after trip."
-      />
+  <!-- ============ 8. BEHIND THE PHOTOGRAPHS (gear teaser) ============ -->
+  <section class="mx-auto max-w-7xl px-6 pt-20 sm:px-8">
+    <div class="reveal flex flex-col items-start justify-between gap-6 border border-limestone/60 bg-cream-hi/70 px-8 py-10 sm:flex-row sm:items-center sm:px-12 dark:border-cream/10 dark:bg-dusk-800/60">
+      <div class="flex items-center gap-6">
+        <Decor name="camera" class="hidden w-20 shrink-0 text-ink/30 sm:block dark:text-cream/25" />
+        <div>
+          <h2 class="font-display text-2xl font-semibold tracking-tight text-ink dark:text-cream">Behind the photographs</h2>
+          <p class="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft dark:text-cream/65">
+            A pocket camera, a lightweight gimbal, a small drone, and whatever fits in the overhead bin.
+          </p>
+        </div>
+      </div>
       <a
         href={withBase('/gear/')}
-        class="reveal inline-flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-terracotta-dark transition-transform duration-300 hover:translate-x-1 dark:text-terracotta-light"
+        class="inline-flex shrink-0 items-center gap-2 border border-limestone-dark/50 px-6 py-3 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-ink transition-all duration-200 hover:border-terracotta hover:text-terracotta-dark dark:border-cream/15 dark:text-cream/85 dark:hover:text-terracotta-light"
       >
-        Browse the kit
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        See what I carry
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
       </a>
-    </div>
-    <div class="mt-12 grid gap-6 md:grid-cols-3">
-      {gear.map((item, i) => <GearCard item={item} delay={i * 120} />)}
     </div>
   </section>
 
-  <!-- ============ NEWSLETTER ============ -->
-  <section class="mx-auto max-w-7xl px-6 pt-24 sm:px-8">
+  <!-- ============ 9. NEWSLETTER ============ -->
+  <section class="mx-auto max-w-7xl px-6 pt-20 sm:px-8">
     <div class="reveal relative overflow-hidden border border-limestone/60 bg-cream-hi/70 px-8 py-14 sm:px-16 dark:border-cream/10 dark:bg-dusk-800/60">
       <Decor name="paravion" class="pointer-events-none absolute -right-4 top-6 hidden w-40 rotate-6 text-slate/30 sm:block" />
       <div class="relative max-w-xl">
@@ -246,7 +338,7 @@ const habits = [
           Letters worth the wait
         </h2>
         <p class="mt-4 max-w-md text-sm leading-relaxed text-ink-soft dark:text-cream/65">
-          Occasional notes from the road, new photographs, village discoveries, and cheeses worth remembering. No spam, no recycled itineraries — just the good stuff.
+          Occasional stories, photographs, market finds, and new films. No spam, no recycled itineraries — just the good stuff.
         </p>
         <form class="mt-8 flex max-w-md flex-col gap-3 sm:flex-row" action="mailto:wefeltlikeit@gmail.com" method="get">
           <label class="sr-only" for="newsletter-email">Email address</label>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="mk-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8d3ab"/><stop offset="1" stop-color="#c9a878"/>
+    </linearGradient>
+    <filter id="mk-grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.12"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="800" height="800" fill="url(#mk-bg)"/>
+  <!-- soft blurred stall behind -->
+  <rect x="0" y="120" width="800" height="220" fill="#a8824f" opacity="0.5"/>
+  <rect x="0" y="150" width="800" height="30" fill="#7d5f38" opacity="0.4"/>
+  <!-- wooden crates -->
+  <g fill="#8a6236">
+    <rect x="60" y="430" width="300" height="230" rx="8"/>
+    <rect x="400" y="450" width="320" height="230" rx="8"/>
+    <rect x="200" y="620" width="360" height="150" rx="8"/>
+  </g>
+  <g fill="#6f4c28" opacity="0.5">
+    <rect x="60" y="430" width="300" height="18"/><rect x="400" y="450" width="320" height="18"/>
+  </g>
+  <!-- tomatoes -->
+  <g fill="#c0392b">
+    <circle cx="110" cy="470" r="26"/><circle cx="170" cy="466" r="27"/><circle cx="230" cy="472" r="25"/><circle cx="292" cy="468" r="27"/>
+    <circle cx="140" cy="510" r="26"/><circle cx="205" cy="514" r="27"/><circle cx="268" cy="510" r="25"/>
+  </g>
+  <g fill="#e05a44" opacity="0.6"><circle cx="102" cy="462" r="8"/><circle cx="162" cy="458" r="8"/><circle cx="284" cy="460" r="8"/><circle cx="197" cy="506" r="8"/></g>
+  <!-- courgettes / greens -->
+  <g fill="#5f7a3a">
+    <ellipse cx="450" cy="500" rx="30" ry="14" transform="rotate(-18 450 500)"/>
+    <ellipse cx="510" cy="512" rx="30" ry="14" transform="rotate(-14 510 512)"/>
+    <ellipse cx="575" cy="500" rx="30" ry="14" transform="rotate(-20 575 500)"/>
+    <ellipse cx="640" cy="514" rx="30" ry="14" transform="rotate(-12 640 514)"/>
+    <ellipse cx="482" cy="536" rx="30" ry="14" transform="rotate(-16 482 536)"/>
+    <ellipse cx="606" cy="536" rx="30" ry="14" transform="rotate(-16 606 536)"/>
+  </g>
+  <!-- peppers -->
+  <g fill="#e0a021">
+    <circle cx="270" cy="670" r="30"/><circle cx="340" cy="676" r="30"/><circle cx="410" cy="670" r="30"/><circle cx="480" cy="676" r="30"/>
+  </g>
+  <!-- chalkboard price sign -->
+  <g transform="rotate(-6 200 430)">
+    <rect x="150" y="392" width="120" height="76" rx="6" fill="#2c2620"/>
+    <rect x="150" y="392" width="120" height="76" rx="6" fill="none" stroke="#e7d6b4" stroke-width="3"/>
+    <text x="210" y="424" font-family="'Dancing Script',cursive" font-size="26" fill="#f3e6c6" text-anchor="middle">Tomates</text>
+    <text x="210" y="452" font-family="'Dancing Script',cursive" font-size="22" fill="#e0a021" text-anchor="middle">3,50 €/kg</text>
+  </g>
+  <rect width="800" height="800" filter="url(#mk-grain)" opacity="0.5" style="mix-blend-mode:overlay"/>
+</svg>

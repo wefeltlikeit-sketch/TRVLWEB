@@ -1,0 +1,64 @@
+---
+/**
+ * Lazy YouTube embed: renders a poster + play button, and only injects the
+ * iframe when the visitor clicks. Keeps listing pages and the homepage free
+ * of active players. When no `youtubeId` is set yet (footage still in the
+ * edit), it renders the poster with a script note instead of a player.
+ */
+import { withBase } from '../lib/paths';
+
+interface Props {
+  youtubeId?: string;
+  poster: string;
+  title: string;
+  duration?: string;
+  class?: string;
+}
+
+const { youtubeId, poster, title, duration, class: className = '' } = Astro.props;
+---
+
+<div class:list={['lite-yt group relative overflow-hidden rounded-[3px]', className]} data-yt={youtubeId || undefined}>
+  <img src={withBase(poster)} alt={title} class="aspect-video w-full object-cover" loading="lazy" />
+  <div class="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent"></div>
+
+  {youtubeId ? (
+    <button
+      type="button"
+      class="lite-yt-play absolute inset-0 grid place-items-center"
+      aria-label={`Play video: ${title}`}
+    >
+      <span class="grid size-16 place-items-center rounded-full border border-cream-hi/70 bg-ink/35 text-cream-hi backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:border-terracotta group-hover:bg-terracotta sm:size-20">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+      </span>
+    </button>
+  ) : (
+    <p class="script absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-2xl !text-cream-hi drop-shadow-[0_1px_3px_rgba(48,46,42,0.7)] sm:text-3xl">
+      fresh from the road — still in the edit
+    </p>
+  )}
+
+  {duration && (
+    <span class="pointer-events-none absolute bottom-4 right-4 rounded-sm bg-ink/75 px-2 py-0.5 text-xs font-semibold tracking-wider text-cream-hi">{duration}</span>
+  )}
+</div>
+
+<script>
+  function armLiteYt() {
+    document.querySelectorAll<HTMLElement>('.lite-yt[data-yt]:not([data-armed])').forEach((el) => {
+      el.dataset.armed = 'true';
+      el.querySelector('.lite-yt-play')?.addEventListener('click', () => {
+        const id = el.dataset.yt;
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+        iframe.title = el.querySelector('img')?.alt ?? 'Video';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.className = 'absolute inset-0 h-full w-full';
+        el.appendChild(iframe);
+      });
+    });
+  }
+  armLiteYt();
+  document.addEventListener('astro:page-load', armLiteYt);
+</script>

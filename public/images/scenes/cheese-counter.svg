@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="ch-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4b3826"/><stop offset="1" stop-color="#2e2216"/>
+    </linearGradient>
+    <radialGradient id="ch-glow" cx="0.5" cy="0.35" r="0.6">
+      <stop offset="0" stop-color="#e6b96a" stop-opacity="0.5"/><stop offset="1" stop-color="#e6b96a" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ch-grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.12"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="800" height="800" fill="url(#ch-bg)"/>
+  <rect width="800" height="800" fill="url(#ch-glow)"/>
+  <!-- shelves behind -->
+  <g stroke="#5a4128" stroke-width="10" opacity="0.5"><path d="M0 150 h800 M0 250 h800"/></g>
+  <g fill="#c9a24a" opacity="0.4"><circle cx="120" cy="120" r="30"/><circle cx="230" cy="120" r="30"/><circle cx="600" cy="120" r="30"/><circle cx="700" cy="120" r="30"/></g>
+  <!-- wooden counter -->
+  <rect x="0" y="470" width="800" height="330" fill="#7a5733"/>
+  <rect x="0" y="470" width="800" height="16" fill="#93693d"/>
+  <!-- big cheese wheels, cut wedges -->
+  <g>
+    <ellipse cx="180" cy="470" rx="130" ry="40" fill="#e8cf8f"/>
+    <path d="M50 470 a130 40 0 0 0 260 0 v-70 a130 40 0 0 1 -260 0 Z" fill="#d9bc74"/>
+    <path d="M180 430 l70 -18 a130 40 0 0 1 -140 0 Z" fill="#f2e2ab"/>
+    <ellipse cx="520" cy="480" rx="150" ry="46" fill="#e4c77f"/>
+    <path d="M370 480 a150 46 0 0 0 300 0 v-80 a150 46 0 0 1 -300 0 Z" fill="#d3b165"/>
+    <path d="M520 434 l82 -20 a150 46 0 0 1 -164 0 Z" fill="#efdca0"/>
+  </g>
+  <!-- rind darker edges -->
+  <g fill="none" stroke="#a9863f" stroke-width="5" opacity="0.6">
+    <ellipse cx="180" cy="470" rx="130" ry="40"/><ellipse cx="520" cy="480" rx="150" ry="46"/>
+  </g>
+  <!-- small chalkboard tags -->
+  <g transform="rotate(-8 150 560)">
+    <rect x="112" y="536" width="96" height="52" rx="4" fill="#241d16" stroke="#e7d6b4" stroke-width="2"/>
+    <text x="160" y="560" font-family="'Dancing Script',cursive" font-size="18" fill="#f3e6c6" text-anchor="middle">Comté</text>
+    <text x="160" y="580" font-family="'Dancing Script',cursive" font-size="16" fill="#e6b96a" text-anchor="middle">18 mois</text>
+  </g>
+  <g transform="rotate(6 560 580)">
+    <rect x="512" y="556" width="96" height="52" rx="4" fill="#241d16" stroke="#e7d6b4" stroke-width="2"/>
+    <text x="560" y="580" font-family="'Dancing Script',cursive" font-size="18" fill="#f3e6c6" text-anchor="middle">Tomme</text>
+    <text x="560" y="600" font-family="'Dancing Script',cursive" font-size="16" fill="#e6b96a" text-anchor="middle">de Savoie</text>
+  </g>
+  <rect width="800" height="800" filter="url(#ch-grain)" opacity="0.5" style="mix-blend-mode:overlay"/>
+</svg>

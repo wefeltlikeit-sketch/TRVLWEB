@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VideoCard from '../components/VideoCard.astro';
+import LiteYouTube from '../components/LiteYouTube.astro';
+import Decor from '../components/Decor.astro';
+
+const videos = (await getCollection('videos')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const featured = videos.find((v) => v.data.featured) ?? videos[0];
+const rest = videos.filter((v) => v.id !== featured.id);
+
+const types = [...new Set(videos.map((v) => v.data.type))].sort();
+const droneCount = videos.filter((v) => v.data.type === 'Drone').length;
+---
+
+<BaseLayout
+  title="Films — The Unhurried Traveler"
+  description="Drone footage, scenic drives, village walks, and market mornings — short travel films from the roads between Europe's famous places."
+>
+  <section class="mx-auto max-w-7xl px-6 pt-32 sm:px-8">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="reveal max-w-2xl">
+        <p class="flex items-center gap-3"><span class="rule-tick"></span><span class="eyebrow">Films</span></p>
+        <h1 class="mt-4 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-6xl dark:text-cream">Moving pictures, slowly</h1>
+        <p class="mt-4 text-base leading-relaxed text-ink-soft dark:text-cream/65">
+          Short films from the road: drone perspectives, window seats, village walks, and market mornings.
+          The drone series is called <em>From Above</em> — {droneCount === 1 ? 'one flight' : `${droneCount} flights`} and counting.
+        </p>
+      </div>
+      <Decor name="drone" class="reveal hidden w-32 text-ink/25 sm:block dark:text-cream/20" />
+    </div>
+
+    <!-- featured film -->
+    <div class="reveal mt-12 grid gap-8 lg:grid-cols-[1.4fr_0.6fr] lg:items-end">
+      <LiteYouTube
+        youtubeId={featured.data.youtubeId}
+        poster={featured.data.thumbnail}
+        title={featured.data.title}
+        duration={featured.data.duration}
+      />
+      <div class="pb-2">
+        <p class="text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">
+          {featured.data.type} · {featured.data.location}
+        </p>
+        <h2 class="mt-2 font-display text-3xl font-semibold leading-snug tracking-tight text-ink dark:text-cream">{featured.data.title}</h2>
+        <p class="mt-3 text-sm leading-relaxed text-ink-soft dark:text-cream/65">{featured.data.description}</p>
+      </div>
+    </div>
+
+    <!-- type filter -->
+    <div class="reveal mt-16 flex flex-wrap gap-2 border-t border-limestone/50 pt-8 dark:border-cream/8" role="group" aria-label="Filter films by type">
+      <button type="button" data-filter="all" class="filter-chip is-active">All</button>
+      {types.map((t) => (
+        <button type="button" data-filter={t} class="filter-chip">{t === 'Drone' ? 'From Above' : t}</button>
+      ))}
+    </div>
+
+    <div class="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" id="film-grid">
+      {rest.map((video, i) => (
+        <div data-type={video.data.type} class="film-cell">
+          <VideoCard video={video} delay={Math.min(i, 5) * 90} />
+        </div>
+      ))}
+    </div>
+
+    <p id="no-results" class="mt-16 hidden text-center text-sm text-ink-faint dark:text-cream/50">
+      Nothing in that series yet — the footage is on the card, the edit is on the list.
+    </p>
+  </section>
+
+  <style>
+    .filter-chip {
+      border: 1px solid color-mix(in srgb, var(--color-limestone-dark) 55%, transparent);
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-ink-soft);
+      transition: all 200ms ease;
+    }
+    :global(.dark) .filter-chip { color: color-mix(in srgb, var(--color-cream) 80%, transparent); border-color: color-mix(in srgb, var(--color-cream) 15%, transparent); }
+    .filter-chip:hover { border-color: var(--color-terracotta); color: var(--color-terracotta-dark); }
+    .filter-chip.is-active { background: var(--color-terracotta); border-color: var(--color-terracotta); color: var(--color-cream-hi); }
+  </style>
+
+  <script>
+    function armFilters() {
+      const chips = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+      const cells = document.querySelectorAll<HTMLElement>('.film-cell');
+      const empty = document.getElementById('no-results');
+      if (!chips.length || chips[0].dataset.armed) return;
+      chips[0].dataset.armed = 'true';
+
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          chips.forEach((c) => c.classList.toggle('is-active', c === chip));
+          const filter = chip.dataset.filter;
+          let visible = 0;
+          cells.forEach((cell) => {
+            const show = filter === 'all' || cell.dataset.type === filter;
+            cell.style.display = show ? '' : 'none';
+            if (show) visible++;
+          });
+          empty?.classList.toggle('hidden', visible > 0);
+        });
+      });
+    }
+    armFilters();
+    document.addEventListener('astro:page-load', armFilters);
+  </script>
+</BaseLayout>
