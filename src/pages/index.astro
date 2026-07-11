@@ -24,11 +24,10 @@ const destinationCount = (await getCollection('destinations')).length;
 const dateLabel = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
 const strip = [
-  { src: '/images/scenes/cheese-counter.svg', cap: 'Comté, aged eighteen months' },
-  { src: '/images/scenes/cobblestone-lane.svg', cap: 'A lane with no name' },
-  { src: '/images/scenes/market-stall.svg', cap: 'Market morning' },
-  { src: '/images/scenes/rooftops.svg', cap: 'Red roofs from above' },
-  { src: '/images/scenes/coast-aerial.svg', cap: 'The coast, from the air' },
+  { src: '/images/photos/citroen-village.jpg', cap: 'The long way around' },
+  { src: '/images/photos/sarlat-geese.jpg', cap: 'Sarlat, and its geese' },
+  { src: '/images/photos/vienna-christmas-market.jpg', cap: 'Christkindlmarkt, Vienna' },
+  { src: '/images/photos/eilean-donan-castle.jpg', cap: 'Eilean Donan, Scotland' },
 ];
 
 const habits = [
@@ -45,13 +44,13 @@ const habits = [
       <!-- photo -->
       <div class="relative h-[46svh] min-h-[320px] overflow-hidden sm:h-[56svh] lg:h-[calc(100svh-68px)]">
         <img
-          src={withBase('/images/scenes/hero-village.svg')}
-          alt="A hilltop stone village catching golden-hour light above terraced hills"
+          src={withBase('/images/photos/aqueduct-provence.jpg')}
+          alt="An old stone aqueduct arching over clear turquoise water, seen from above"
           class="h-full w-full object-cover"
           fetchpriority="high"
         />
-        <span class="caption-hand absolute bottom-5 left-5 text-cream-hi/95 drop-shadow-[0_1px_2px_rgba(48,46,42,0.5)] sm:bottom-7 sm:left-7 sm:text-[1.5rem]">
-          morning light, somewhere in Umbria
+        <span class="caption-hand absolute bottom-5 left-5 text-cream-hi/95 drop-shadow-[0_1px_2px_rgba(48,46,42,0.6)] sm:bottom-7 sm:left-7 sm:text-[1.5rem]">
+          clear water under the old arches
         </span>
         <!-- torn paper seam into the panel (large screens) -->
         <svg class="absolute right-[-1px] top-0 hidden h-full w-8 text-cream lg:block dark:text-dusk-950" viewBox="0 0 32 600" preserveAspectRatio="none" aria-hidden="true">
@@ -170,9 +169,9 @@ const habits = [
         <p class="eyebrow">The Roads Between</p>
         <span class="script text-xl">so many places, so little hurry</span>
       </div>
-      <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      <div class="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {strip.map((s, i) => (
-          <figure class:list={['reveal group relative overflow-hidden rounded-[3px]', i === 2 && 'col-span-2 sm:col-span-1']} style={`--reveal-delay:${i * 90}ms`}>
+          <figure class="reveal group relative overflow-hidden rounded-[3px]" style={`--reveal-delay:${i * 90}ms`}>
             <img src={withBase(s.src)} alt={s.cap} loading="lazy" class="aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]" />
             <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent px-3 pb-2.5 pt-8 text-[0.68rem] font-medium text-cream-hi/90">{s.cap}</figcaption>
           </figure>
