@@ -31,21 +31,19 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
 ---
 
 <div class="reveal grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-  <!-- Map panel -->
-  <div class="relative overflow-hidden rounded-lg border border-cream/10 bg-gradient-to-br from-dusk-950 via-dusk-900 to-[#332617] p-4 shadow-xl shadow-ink/20 sm:p-6">
-    <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-terracotta/10 blur-3xl" aria-hidden="true"></div>
-
+  <!-- Vintage paper map panel -->
+  <div class="relative overflow-hidden rounded-[3px] border border-limestone/60 bg-parchment p-4 shadow-sm sm:p-6 dark:border-cream/10 dark:bg-dusk-800">
     <div class="relative">
-      <svg viewBox={mapData.viewBox} class="w-full" role="img" aria-label="Stylized map of Europe with journey destinations marked">
+      <svg viewBox={mapData.viewBox} class="w-full" role="img" aria-label="Map of Europe with journey destinations marked">
         <defs>
           <linearGradient id="land" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#7c8367" />
-            <stop offset="100%" stop-color="#545a47" />
+            <stop offset="0%" stop-color="#c3b494" />
+            <stop offset="100%" stop-color="#a9997a" />
           </linearGradient>
         </defs>
 
         <!-- graticule -->
-        <g stroke="#e8ddcb" stroke-opacity="0.12" stroke-width="1">
+        <g stroke="#8b7f68" stroke-opacity="0.2" stroke-width="1">
           {graticuleLons.map((lon) => {
             const { x } = project([lon, 50]);
             return <line x1={x} y1="0" x2={x} y2={MAP.height} />;
@@ -57,14 +55,14 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
         </g>
 
         <!-- landmasses -->
-        <g fill="url(#land)" stroke="#c9855f" stroke-opacity="0.4" stroke-width="1.5" stroke-linejoin="round">
+        <g fill="url(#land)" stroke="#8b4c36" stroke-opacity="0.4" stroke-width="1.5" stroke-linejoin="round">
           {Object.values(mapData.paths).map((d) => (
             <path d={d} />
           ))}
         </g>
       </svg>
 
-      <!-- pins (HTML overlay so they are real buttons) -->
+      <!-- pins -->
       {pins.map((pin, i) => (
         <button
           type="button"
@@ -74,35 +72,35 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
           data-index={i}
           aria-label={`Show details for ${pin.name}, ${pin.country}`}
         >
-          <span class="pin-ring absolute inset-0 rounded-full bg-terracotta-light/70 animate-pulse-ring" aria-hidden="true"></span>
-          <span class="pin-dot relative block size-3.5 rounded-full border-2 border-dusk-950 bg-terracotta-light shadow-[0_0_14px_rgba(201,133,95,0.85)] transition-transform duration-300 group-hover:scale-150 sm:size-4"></span>
-          <span class="pointer-events-none absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md bg-dusk-950/85 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-terracotta-light opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:text-[0.65rem]">
+          <span class="pin-ring absolute inset-0 rounded-full bg-terracotta/60 animate-pulse-ring" aria-hidden="true"></span>
+          <span class="pin-dot relative block size-3.5 rounded-full border-2 border-cream-hi bg-terracotta shadow-[0_1px_4px_rgba(48,46,42,0.5)] transition-transform duration-300 group-hover:scale-150 sm:size-4"></span>
+          <span class="pointer-events-none absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-sm bg-ink/90 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-cream-hi opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:text-[0.65rem]">
             {pin.name}
           </span>
         </button>
       ))}
     </div>
 
-    <p class="relative mt-3 text-center text-[0.65rem] font-medium uppercase tracking-[0.22em] text-cream/35">
+    <p class="relative mt-3 text-center text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-ink-faint">
       Select a marker to open its field notes
     </p>
   </div>
 
   <!-- Detail card -->
-  <aside id="map-detail" class="glass flex flex-col rounded-lg p-7 shadow-lg sm:p-8" aria-live="polite">
-    <p class="text-xs font-bold uppercase tracking-[0.24em] text-terracotta-dark dark:text-terracotta-light" data-slot="country">—</p>
+  <aside id="map-detail" class="flex flex-col border border-limestone/60 bg-cream-hi/70 p-7 shadow-sm sm:p-8 dark:border-cream/10 dark:bg-dusk-800/70" aria-live="polite">
+    <p class="eyebrow" data-slot="country">—</p>
     <h3 class="mt-2 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl dark:text-cream" data-slot="name">Choose a destination</h3>
     <p class="mt-4 flex-none text-sm leading-relaxed text-ink-soft dark:text-cream/70" data-slot="summary">
       Every pin on the map is a journey I have made — tap one to see when to go, how demanding it is, and what not to miss.
     </p>
 
     <dl class="mt-6 grid grid-cols-2 gap-3 text-sm" data-slot="meta" hidden>
-      <div class="rounded-lg bg-terracotta/8 p-4 dark:bg-cream/6">
-        <dt class="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-terracotta-light">Best season</dt>
+      <div class="rounded-[3px] bg-terracotta/8 p-4 dark:bg-cream/6">
+        <dt class="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">Best season</dt>
         <dd class="mt-1.5 font-medium text-ink dark:text-cream" data-slot="season"></dd>
       </div>
-      <div class="rounded-lg bg-terracotta/8 p-4 dark:bg-cream/6">
-        <dt class="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-terracotta-light">Walking</dt>
+      <div class="rounded-[3px] bg-terracotta/8 p-4 dark:bg-cream/6">
+        <dt class="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-olive-light">Walking</dt>
         <dd class="mt-1.5 font-medium text-ink dark:text-cream" data-slot="pace"></dd>
       </div>
     </dl>
@@ -113,7 +111,7 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
       href="#"
       data-slot="post-link"
       hidden
-      class="mt-auto inline-flex items-center justify-center gap-2 rounded-lg bg-terracotta px-5 py-3 pt-3 text-sm font-semibold text-cream-hi shadow-md shadow-terracotta/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-terracotta-dark mt-7"
+      class="mt-auto inline-flex items-center justify-center gap-2 bg-terracotta px-5 py-3 pt-3 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-cream-hi shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-terracotta-dark mt-7"
     >
       Read the journal entry
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -132,7 +130,7 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
 
       const slot = (name) => detail.querySelector(`[data-slot="${name}"]`);
 
-      function select(pin, focusButton) {
+      function select(pin) {
         document.querySelectorAll('.map-pin').forEach((b) => {
           const active = b.dataset.pin === pin.id;
           b.classList.toggle('is-active', active);
@@ -185,9 +183,9 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
 <style>
   .map-pin.is-active .pin-dot {
     transform: scale(1.6);
-    background: #f0b98f;
+    background: #8b4c36;
   }
   .map-pin.is-active .pin-ring {
-    background: rgba(240, 185, 143, 0.8);
+    background: rgba(139, 76, 54, 0.7);
   }
 </style>

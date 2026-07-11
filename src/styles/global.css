@@ -1,20 +1,25 @@
-@import '@fontsource-variable/fraunces';
+@import '@fontsource/playfair-display/400.css';
+@import '@fontsource/playfair-display/500.css';
+@import '@fontsource/playfair-display/600.css';
+@import '@fontsource/playfair-display/700.css';
 @import '@fontsource-variable/source-sans-3';
-@import '@fontsource/caveat/400.css';
-@import '@fontsource/caveat/600.css';
+@import '@fontsource/dancing-script/500.css';
+@import '@fontsource/dancing-script/600.css';
+@import '@fontsource/dancing-script/700.css';
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-display: 'Playfair Display', ui-serif, Georgia, serif;
   --font-sans: 'Source Sans 3 Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-hand: 'Caveat', ui-serif, cursive;
+  --font-script: 'Dancing Script', 'Segoe Script', cursive;
 
   /* Cream & parchment surfaces */
   --color-cream: #f4efe6;
   --color-cream-hi: #fbf8f2;
   --color-parchment: #e8ddcb;
+  --color-parchment-deep: #ddcfb6;
   --color-limestone: #cfc2ae;
   --color-limestone-dark: #b3a58d;
 
@@ -61,15 +66,18 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background: var(--color-cream);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
-  transition: background-color 300ms ease, color 300ms ease;
+  transition: color 300ms ease;
+  /* Warm cream base + faint paper tooth */
+  background-color: var(--color-cream);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
 .dark body {
-  background: var(--color-dusk-950);
   color: #ece5d8;
+  background-color: var(--color-dusk-950);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
 ::selection {
@@ -77,33 +85,84 @@ body {
   color: var(--color-ink);
 }
 
-/* ---------- Handwritten-style captions ---------- */
-.caption-hand {
-  font-family: var(--font-hand);
-  font-weight: 600;
-  font-size: 1.15rem;
-  line-height: 1.3;
-  color: var(--color-terracotta-dark);
-  transform: rotate(-1deg);
-}
-.dark .caption-hand { color: var(--color-terracotta-light); }
+/* ---------- Editorial building blocks ---------- */
 
-/* ---------- Warm glass surfaces ---------- */
+/* Small-caps letterspaced label */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-terracotta-dark);
+}
+.dark .eyebrow { color: var(--color-terracotta-light); }
+
+/* Flowing script accents — "Take the scenic route." */
+.script {
+  font-family: var(--font-script);
+  font-weight: 600;
+  line-height: 1.05;
+  color: var(--color-terracotta-dark);
+}
+.dark .script { color: var(--color-terracotta-light); }
+
+/* Handwritten photo caption */
+.caption-hand {
+  font-family: var(--font-script);
+  font-weight: 600;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  color: var(--color-ink-soft);
+}
+.dark .caption-hand { color: #cfc2ae; }
+
+/* Photo-print / polaroid frame */
+.print-frame {
+  background: #fdfcf9;
+  padding: 0.7rem 0.7rem 0.9rem;
+  box-shadow: 0 18px 40px -18px rgba(48, 46, 42, 0.45), 0 2px 6px -2px rgba(48, 46, 42, 0.2);
+  border: 1px solid rgba(48, 46, 42, 0.06);
+}
+.dark .print-frame {
+  background: #2b2822;
+  border-color: rgba(232, 221, 203, 0.08);
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.6);
+}
+
+/* Hairline rule with a small terracotta tick */
+.rule-tick {
+  height: 2px;
+  width: 3.5rem;
+  background: var(--color-terracotta);
+}
+
+/* Faint dotted route line */
+.route-line {
+  stroke: var(--color-terracotta);
+  stroke-width: 2;
+  stroke-dasharray: 2 8;
+  stroke-linecap: round;
+  fill: none;
+  opacity: 0.5;
+}
+
+/* ---------- Glass surface for fixed header ---------- */
 .glass {
-  background: rgba(251, 248, 242, 0.72);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border: 1px solid rgba(48, 46, 42, 0.08);
+  background: rgba(251, 248, 242, 0.82);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  border: 1px solid rgba(48, 46, 42, 0.07);
 }
 .dark .glass {
-  background: rgba(36, 33, 28, 0.68);
-  border-color: rgba(232, 221, 203, 0.1);
+  background: rgba(36, 33, 28, 0.8);
+  border-color: rgba(232, 221, 203, 0.09);
 }
 
 .glass-deep {
-  background: rgba(48, 46, 42, 0.42);
-  backdrop-filter: blur(18px) saturate(1.15);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  background: rgba(48, 46, 42, 0.4);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
   border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
@@ -111,7 +170,7 @@ body {
 .reveal {
   opacity: 0;
   transform: translateY(22px);
-  transition: opacity 700ms cubic-bezier(0.2, 0.6, 0.2, 1), transform 700ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  transition: opacity 800ms cubic-bezier(0.2, 0.6, 0.2, 1), transform 800ms cubic-bezier(0.2, 0.6, 0.2, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal.is-visible {
@@ -139,9 +198,9 @@ body {
 
 .prose-journal h2 {
   font-family: var(--font-display);
-  font-weight: 560;
-  font-size: 1.75rem;
-  line-height: 1.25;
+  font-weight: 600;
+  font-size: 1.9rem;
+  line-height: 1.2;
   letter-spacing: -0.01em;
   margin-top: 2.2em;
   color: var(--color-ink);
@@ -150,8 +209,8 @@ body {
 
 .prose-journal h3 {
   font-family: var(--font-display);
-  font-weight: 540;
-  font-size: 1.3rem;
+  font-weight: 600;
+  font-size: 1.4rem;
   margin-top: 1.9em;
   color: var(--color-ink);
 }
@@ -173,8 +232,8 @@ body {
   padding: 0.4em 0 0.4em 1.4em;
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 1.25rem;
-  line-height: 1.6;
+  font-size: 1.3rem;
+  line-height: 1.55;
   color: var(--color-ink);
 }
 .dark .prose-journal blockquote { color: var(--color-cream); }
@@ -193,14 +252,13 @@ body {
   margin: 2.6em 0;
 }
 .prose-journal hr::after {
-  content: '· · ·';
-  letter-spacing: 0.9em;
+  content: '❧';
   color: var(--color-olive);
-  font-size: 1.1rem;
+  font-size: 1.4rem;
 }
 
 .prose-journal img {
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   width: 100%;
 }
 
