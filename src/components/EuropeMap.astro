@@ -31,21 +31,21 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
 ---
 
 <div class="reveal grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-  <!-- Chart panel -->
-  <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-950 via-ink-900 to-brand-900 p-4 shadow-2xl shadow-brand-950/40 sm:p-6">
-    <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-accent-500/10 blur-3xl" aria-hidden="true"></div>
+  <!-- Map panel -->
+  <div class="relative overflow-hidden rounded-lg border border-cream/10 bg-gradient-to-br from-dusk-950 via-dusk-900 to-[#332617] p-4 shadow-xl shadow-ink/20 sm:p-6">
+    <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-terracotta/10 blur-3xl" aria-hidden="true"></div>
 
     <div class="relative">
       <svg viewBox={mapData.viewBox} class="w-full" role="img" aria-label="Stylized map of Europe with journey destinations marked">
         <defs>
           <linearGradient id="land" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#117a76" />
-            <stop offset="100%" stop-color="#0d5c5a" />
+            <stop offset="0%" stop-color="#7c8367" />
+            <stop offset="100%" stop-color="#545a47" />
           </linearGradient>
         </defs>
 
         <!-- graticule -->
-        <g stroke="#1cb8b0" stroke-opacity="0.13" stroke-width="1">
+        <g stroke="#e8ddcb" stroke-opacity="0.12" stroke-width="1">
           {graticuleLons.map((lon) => {
             const { x } = project([lon, 50]);
             return <line x1={x} y1="0" x2={x} y2={MAP.height} />;
@@ -57,7 +57,7 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
         </g>
 
         <!-- landmasses -->
-        <g fill="url(#land)" stroke="#34d399" stroke-opacity="0.35" stroke-width="1.5" stroke-linejoin="round">
+        <g fill="url(#land)" stroke="#c9855f" stroke-opacity="0.4" stroke-width="1.5" stroke-linejoin="round">
           {Object.values(mapData.paths).map((d) => (
             <path d={d} />
           ))}
@@ -74,46 +74,46 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
           data-index={i}
           aria-label={`Show details for ${pin.name}, ${pin.country}`}
         >
-          <span class="pin-ring absolute inset-0 rounded-full bg-accent-400/70 animate-pulse-ring" aria-hidden="true"></span>
-          <span class="pin-dot relative block size-3.5 rounded-full border-2 border-ink-950 bg-accent-400 shadow-[0_0_14px_rgba(52,211,153,0.9)] transition-transform duration-300 group-hover:scale-150 sm:size-4"></span>
-          <span class="pointer-events-none absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink-950/85 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-accent-300 opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:text-[0.65rem]">
+          <span class="pin-ring absolute inset-0 rounded-full bg-terracotta-light/70 animate-pulse-ring" aria-hidden="true"></span>
+          <span class="pin-dot relative block size-3.5 rounded-full border-2 border-dusk-950 bg-terracotta-light shadow-[0_0_14px_rgba(201,133,95,0.85)] transition-transform duration-300 group-hover:scale-150 sm:size-4"></span>
+          <span class="pointer-events-none absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md bg-dusk-950/85 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-terracotta-light opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:text-[0.65rem]">
             {pin.name}
           </span>
         </button>
       ))}
     </div>
 
-    <p class="relative mt-3 text-center text-[0.65rem] font-medium uppercase tracking-[0.25em] text-white/35">
+    <p class="relative mt-3 text-center text-[0.65rem] font-medium uppercase tracking-[0.22em] text-cream/35">
       Select a marker to open its field notes
     </p>
   </div>
 
   <!-- Detail card -->
-  <aside id="map-detail" class="glass flex flex-col rounded-3xl p-7 shadow-xl sm:p-8" aria-live="polite">
-    <p class="text-xs font-bold uppercase tracking-[0.28em] text-accent-600 dark:text-accent-400" data-slot="country">—</p>
-    <h3 class="mt-2 font-display text-2xl font-semibold tracking-tight text-brand-900 sm:text-3xl dark:text-paper" data-slot="name">Choose a destination</h3>
-    <p class="mt-4 flex-none text-sm leading-relaxed text-ink-800/80 dark:text-paper/70" data-slot="summary">
-      Every pin on the chart is a journey I have made alone — tap one to see when to go, how demanding it is, and what not to miss.
+  <aside id="map-detail" class="glass flex flex-col rounded-lg p-7 shadow-lg sm:p-8" aria-live="polite">
+    <p class="text-xs font-bold uppercase tracking-[0.24em] text-terracotta-dark dark:text-terracotta-light" data-slot="country">—</p>
+    <h3 class="mt-2 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl dark:text-cream" data-slot="name">Choose a destination</h3>
+    <p class="mt-4 flex-none text-sm leading-relaxed text-ink-soft dark:text-cream/70" data-slot="summary">
+      Every pin on the map is a journey I have made — tap one to see when to go, how demanding it is, and what not to miss.
     </p>
 
     <dl class="mt-6 grid grid-cols-2 gap-3 text-sm" data-slot="meta" hidden>
-      <div class="rounded-2xl bg-brand-800/8 p-4 dark:bg-white/6">
-        <dt class="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-brand-700 dark:text-accent-400">Best season</dt>
-        <dd class="mt-1.5 font-medium text-brand-900 dark:text-paper" data-slot="season"></dd>
+      <div class="rounded-lg bg-terracotta/8 p-4 dark:bg-cream/6">
+        <dt class="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-terracotta-light">Best season</dt>
+        <dd class="mt-1.5 font-medium text-ink dark:text-cream" data-slot="season"></dd>
       </div>
-      <div class="rounded-2xl bg-brand-800/8 p-4 dark:bg-white/6">
-        <dt class="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-brand-700 dark:text-accent-400">Walking</dt>
-        <dd class="mt-1.5 font-medium text-brand-900 dark:text-paper" data-slot="pace"></dd>
+      <div class="rounded-lg bg-terracotta/8 p-4 dark:bg-cream/6">
+        <dt class="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-olive-dark dark:text-terracotta-light">Walking</dt>
+        <dd class="mt-1.5 font-medium text-ink dark:text-cream" data-slot="pace"></dd>
       </div>
     </dl>
 
-    <ul class="mt-5 space-y-2 text-sm text-ink-800/80 dark:text-paper/70" data-slot="highlights"></ul>
+    <ul class="mt-5 space-y-2 text-sm text-ink-soft dark:text-cream/70" data-slot="highlights"></ul>
 
     <a
       href="#"
       data-slot="post-link"
       hidden
-      class="mt-auto inline-flex items-center justify-center gap-2 rounded-xl bg-accent-600 px-5 py-3 pt-3 text-sm font-semibold text-white shadow-lg shadow-accent-600/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500 mt-7"
+      class="mt-auto inline-flex items-center justify-center gap-2 rounded-lg bg-terracotta px-5 py-3 pt-3 text-sm font-semibold text-cream-hi shadow-md shadow-terracotta/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-terracotta-dark mt-7"
     >
       Read the journal entry
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -152,7 +152,7 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
           const li = document.createElement('li');
           li.className = 'flex items-start gap-2.5';
           const dot = document.createElement('span');
-          dot.className = 'mt-1.5 size-1.5 flex-none rounded-full bg-accent-500';
+          dot.className = 'mt-1.5 size-1.5 flex-none rounded-full bg-terracotta';
           const text = document.createElement('span');
           text.textContent = h;
           li.append(dot, text);
@@ -185,9 +185,9 @@ const graticuleLats = [35, 40, 45, 50, 55, 60, 65];
 <style>
   .map-pin.is-active .pin-dot {
     transform: scale(1.6);
-    background: #6ee7b7;
+    background: #f0b98f;
   }
   .map-pin.is-active .pin-ring {
-    background: rgba(110, 231, 183, 0.8);
+    background: rgba(240, 185, 143, 0.8);
   }
 </style>

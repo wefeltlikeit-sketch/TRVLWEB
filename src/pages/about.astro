@@ -1,35 +1,88 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { withBase } from '../lib/paths';
+
+const recent = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+
+const principles = [
+  {
+    title: 'One region, explored outward',
+    body: 'I pick a base and stay put — a village, a small town, sometimes a single street. Everything else is a day trip from there, on foot or by local train.',
+  },
+  {
+    title: 'The market before the museum',
+    body: 'A Saturday market tells you more about a place than most attractions do. I go for the cheese stalls and stay for the conversation.',
+  },
+  {
+    title: 'Honest about the letdowns',
+    body: "Some famous places are overrated at midday and wonderful at seven in the morning. A few just don't earn the queue. I'll tell you which is which.",
+  },
+  {
+    title: 'A camera, and increasingly a drone',
+    body: 'Photography is how I pay attention. The drone came later, mostly for the mornings when a village makes more sense from above.',
+  },
+];
 ---
 
 <BaseLayout
   title="About — The Unhurried Traveler"
-  description="Who writes this, why the journeys are solo, and why the best travel of a lifetime can start after sixty."
+  description="Who writes this, how the trips are planned, and what to expect from the journal, the map, and the gear list."
 >
-  <section class="mx-auto max-w-3xl px-6 pt-36">
-    <SectionHeading eyebrow="About" title="Alone by choice, unhurried by conviction" />
+  <section class="mx-auto max-w-5xl px-6 pt-36">
+    <SectionHeading eyebrow="About" title="A slower way through Europe" />
 
-    <div class="prose-journal mt-10">
-      <p>
-        I took my first solo trip at an age when most travel writing assumes you've hung up your boots.
-        My wife of many years had gone; the children were grown and scattered; and the choice, it turned out,
-        was between a smaller life and a larger one. I bought a one-way ticket to Lisbon, packed one bag,
-        and discovered something nobody had told me: <strong>Europe is the easiest place in the world to be
-        alone, and being alone is the most underrated way to see it.</strong>
-      </p>
-      <p>
-        This site is the notebook from everything since — the cliff villages of the Dordogne, the little red
-        trains of the Alps, milk-bar lunches in Kraków, October swims below the Cinque Terre. I travel slowly,
-        stay in one place at a time, ride trains where I can, and film what I see with a pocket camera and a
-        drone that weighs less than a paperback.
-      </p>
+    <div class="mt-12 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+      <figure class="reveal overflow-hidden rounded-lg border border-limestone/50 shadow-sm dark:border-cream/10">
+        <img
+          src={withBase('/images/covers/traveler-portrait.svg')}
+          alt="A traveler with a camera pausing at a stone wall overlook above a hilltop village"
+          class="aspect-[4/5] w-full object-cover"
+          loading="eager"
+        />
+        <figcaption class="caption-hand border-t border-limestone/40 bg-parchment px-5 py-3 text-base dark:border-cream/10 dark:bg-dusk-800">
+          most mornings start like this
+        </figcaption>
+      </figure>
+
+      <div class="prose-journal">
+        <p>
+          I took my first solo trip at an age when most travel writing assumes you've hung up your boots —
+          a one-way ticket to Lisbon, one bag, no itinerary past the first three nights. That trip is part of
+          how this site started, but it isn't really what it's about. What it's about is everything I found
+          once I slowed down enough to look: the cliff villages of the Dordogne, the little red trains of the
+          Alps, milk-bar lunches in Kraków, October swims below the Cinque Terre.
+        </p>
+        <p>
+          I travel slowly, stay in one place at a time, ride trains where I can, and carry a pocket camera
+          and a drone that weighs less than a paperback. Some of it I still do alone, and I've written about
+          that where it's relevant — but the site itself is about the villages, the markets, the cheese, and
+          the roads between the famous places, not about who's sitting in the seat.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-20">
+      <h2 class="reveal font-display text-2xl font-semibold tracking-tight text-ink dark:text-cream">A few travel principles</h2>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2">
+        {principles.map((p, i) => (
+          <div class="reveal rounded-lg border border-limestone/50 bg-cream-hi p-6 dark:border-cream/10 dark:bg-dusk-800" style={`--reveal-delay:${i * 100}ms`}>
+            <h3 class="font-display text-lg font-semibold text-ink dark:text-cream">{p.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft dark:text-cream/65">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="prose-journal mt-16">
       <h2>What you'll find here</h2>
       <ul>
-        <li><strong>The Journal</strong> — long-form field notes: routes, architecture, history, and the practical craft of solo travel at a certain age.</li>
-        <li><strong>The Chart</strong> — an interactive map of every journey, with honest notes on season and walking pace.</li>
-        <li><strong>The Kit</strong> — the one-bag setup, from trekking poles to the flying camera.</li>
+        <li><strong>The Journal</strong> — long-form field notes: routes, architecture, markets, and the practical craft of travelling well and slowly.</li>
+        <li><strong>The Travel Map</strong> — every journey plotted, with honest notes on season and walking pace.</li>
+        <li><strong>Camera & Travel Gear</strong> — the one-bag setup, from trekking poles to the flying camera.</li>
       </ul>
       <h2>The honesty clause</h2>
       <p>
@@ -38,26 +91,41 @@ import { withBase } from '../lib/paths';
         If a famous village is overrated, I'll say so — and tell you what time of year makes it worth it anyway.
       </p>
       <blockquote>
-        Alone never meant lonely. It means every cathedral gets the time it deserves, every wrong turn is
-        allowed, and lunch lasts exactly as long as it wants to.
+        Every cathedral gets the time it deserves, every wrong turn is allowed, and lunch lasts exactly as
+        long as it wants to.
       </blockquote>
-      <p>
-        If you're standing where I stood — retired, on your own, wondering whether the big trip is still
-        possible — consider this site one long letter saying: <em>yes, and go in the shoulder season.</em>
-      </p>
     </div>
 
-    <div class="reveal mt-12 flex flex-wrap gap-4">
+    <div class="mt-16">
+      <h2 class="reveal font-display text-2xl font-semibold tracking-tight text-ink dark:text-cream">Recent journeys</h2>
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+        {recent.map((post, i) => (
+          <li class="reveal" style={`--reveal-delay:${i * 90}ms`}>
+            <a
+              href={withBase(`/blog/${post.id}/`)}
+              class="group flex items-center justify-between gap-4 rounded-lg border border-limestone/50 bg-cream-hi px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-terracotta/50 hover:shadow-md dark:border-cream/10 dark:bg-dusk-800"
+            >
+              <span class="font-display text-base font-semibold leading-snug text-ink group-hover:text-terracotta-dark dark:text-cream dark:group-hover:text-terracotta-light">
+                {post.data.title}
+              </span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="flex-none text-terracotta-dark transition-transform duration-300 group-hover:translate-x-1 dark:text-terracotta-light"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="reveal mt-14 flex flex-wrap gap-4">
       <a
         href={withBase('/blog/')}
-        class="inline-flex items-center gap-2 rounded-xl bg-accent-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-accent-600/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500"
+        class="inline-flex items-center gap-2 rounded-lg bg-terracotta px-6 py-3.5 text-sm font-semibold text-cream-hi shadow-md shadow-terracotta/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-terracotta-dark"
       >
         Start with the journal
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
       </a>
       <a
         href="mailto:wefeltlikeit@gmail.com"
-        class="inline-flex items-center gap-2 rounded-xl border border-brand-800/20 px-6 py-3.5 text-sm font-semibold text-brand-800 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-500 hover:text-accent-600 dark:border-white/15 dark:text-paper/85 dark:hover:text-accent-400"
+        class="inline-flex items-center gap-2 rounded-lg border border-limestone-dark/40 px-6 py-3.5 text-sm font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-terracotta hover:text-terracotta-dark dark:border-cream/15 dark:text-cream/85 dark:hover:text-terracotta-light"
       >
         Write to me
       </a>

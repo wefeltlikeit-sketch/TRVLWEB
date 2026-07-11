@@ -21,32 +21,32 @@ const icons: Record<string, string> = {
 ---
 
 <article
-  class="reveal group relative flex flex-col rounded-3xl border border-brand-800/10 bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-brand-900/15 dark:border-white/10 dark:bg-ink-800"
+  class="reveal group relative flex flex-col rounded-lg border border-limestone/50 bg-cream-hi p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-ink/10 dark:border-cream/10 dark:bg-dusk-800"
   style={`--reveal-delay:${delay}ms`}
 >
   {sponsor && (
-    <span class="absolute right-5 top-5 rounded-full bg-accent-500/12 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.14em] text-accent-600 dark:text-accent-400">
+    <span class="absolute right-5 top-5 rounded-full bg-terracotta/12 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.14em] text-terracotta-dark dark:text-terracotta-light">
       Partner
     </span>
   )}
 
-  <span class="grid size-12 place-items-center rounded-2xl bg-brand-800/10 text-brand-800 transition-colors duration-300 group-hover:bg-accent-600 group-hover:text-white dark:bg-white/8 dark:text-accent-400">
+  <span class="grid size-12 place-items-center rounded-lg bg-terracotta/10 text-terracotta-dark transition-colors duration-300 group-hover:bg-terracotta group-hover:text-cream-hi dark:bg-cream/8 dark:text-terracotta-light">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d={icons[icon] ?? icons.bag} />
     </svg>
   </span>
 
-  <p class="mt-5 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-brand-700 dark:text-accent-400">{category}</p>
-  <h3 class="mt-1.5 font-display text-lg font-semibold tracking-tight text-brand-900 dark:text-paper">{name}</h3>
-  <p class="mt-1 text-sm font-medium text-accent-600 dark:text-accent-400">{tagline}</p>
-  <p class="mt-3 flex-1 text-sm leading-relaxed text-ink-800/75 dark:text-paper/65">{description}</p>
+  <p class="mt-5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-olive-dark dark:text-terracotta-light">{category}</p>
+  <h3 class="mt-1.5 font-display text-lg font-semibold tracking-tight text-ink dark:text-cream">{name}</h3>
+  <p class="mt-1 text-sm font-medium text-terracotta-dark dark:text-terracotta-light">{tagline}</p>
+  <p class="mt-3 flex-1 text-sm leading-relaxed text-ink-soft dark:text-cream/65">{description}</p>
 
   {link && (
     <a
       href={link}
       rel="noopener sponsored"
       target="_blank"
-      class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-800 transition-colors hover:text-accent-600 dark:text-paper/85 dark:hover:text-accent-400"
+      class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-ink transition-colors hover:text-terracotta-dark dark:text-cream/85 dark:hover:text-terracotta-light"
     >
       View details
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

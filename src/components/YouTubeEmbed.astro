@@ -7,7 +7,7 @@ interface Props {
 const { id, title = 'Watch the film from this journey' } = Astro.props;
 ---
 
-<figure class="not-prose my-10 overflow-hidden rounded-3xl border border-brand-800/10 shadow-xl dark:border-white/10">
+<figure class="not-prose my-10 overflow-hidden rounded-lg border border-limestone/50 shadow-lg dark:border-cream/10">
   <div class="aspect-video">
     <iframe
       src={`https://www.youtube-nocookie.com/embed/${id}`}
@@ -18,7 +18,7 @@ const { id, title = 'Watch the film from this journey' } = Astro.props;
       class="h-full w-full"
     ></iframe>
   </div>
-  <figcaption class="bg-brand-950 px-6 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-accent-300">
+  <figcaption class="bg-dusk-950 px-6 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-terracotta-light">
     ▶ {title}
   </figcaption>
 </figure>

@@ -6,9 +6,9 @@
       <stop offset="1" stop-color="#d9a05b"/>
     </linearGradient>
     <linearGradient id="driver" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#c98f4e"/>
-      <stop offset="0.5" stop-color="#117a76"/>
-      <stop offset="1" stop-color="#0d5c5a"/>
+      <stop offset="0" stop-color="#e0b878"/>
+      <stop offset="0.5" stop-color="#c9834f"/>
+      <stop offset="1" stop-color="#8b4c36"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="800" fill="url(#dsky)"/>
@@ -44,7 +44,7 @@
     <path d="M300 626 l26 -18 4 6 -26 18 Z"/>
   </g>
   <!-- foreground trees -->
-  <g fill="#0d5c5a">
+  <g fill="#545a47">
     <path d="M0 800 v-180 q30 -40 55 0 q28 -52 58 0 q24 -36 48 0 v180 Z" opacity="0.9"/>
   </g>
 </svg>
