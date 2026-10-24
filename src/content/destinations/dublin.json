@@ -1,0 +1,13 @@
+{
+  "name": "Dublin",
+  "country": "Ireland",
+  "coordinates": [-6.2592, 53.3439],
+  "summary": "Flat, walkable, and talkative — a capital that works best on foot between Trinity College and the Liffey, with Grafton Street's buskers setting the pace. Two days at either end of a loop around the island is exactly right.",
+  "bestSeason": "May–June, October",
+  "pace": "gentle",
+  "highlights": [
+    "The Long Room at Trinity College, first entry of the morning",
+    "Grafton Street buskers as the shops open",
+    "Crossing O'Connell Bridge at dusk, the Liffey going gold"
+  ]
+}
